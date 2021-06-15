@@ -14,7 +14,7 @@ const Manufacturer = db.define('manufacturer', {
     }
   },
   countryOfOrigin: {
-    type: Sequelize.ENUM(),
+    type: Sequelize.ENUM([italy, Germany ]),
   },
   address: {
     type: Sequelize.STRING,
@@ -29,7 +29,7 @@ const Manufacturer = db.define('manufacturer', {
     unique: true,
   },
   PhoneNumber: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     unique: true,
     validate: {
       notEmpty: true

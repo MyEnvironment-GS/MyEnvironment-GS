@@ -4,8 +4,8 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    const manufacturer = await User.findAll()
-    res.json(manufacturer)
+    const Manufacturer = await manufacturer.findAll()
+    res.json(Manufacturer)
   } catch (err) {
     next(err)
   }

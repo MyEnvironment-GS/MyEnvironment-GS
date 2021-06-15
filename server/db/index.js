@@ -2,7 +2,7 @@
 
 const db = require('./db')
 
-const Manufacturer = require('./models/manufacter')
+const Manufacturer = require('./models/manufacturer')
 
 //associations could go here!
 
