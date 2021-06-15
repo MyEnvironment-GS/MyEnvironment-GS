@@ -2,13 +2,13 @@
 
 const db = require('./db')
 
-const User = require('./models/manufacter')
+const Manufacturer = require('./models/manufacter')
 
 //associations could go here!
 
 module.exports = {
   db,
   models: {
-    User,
+   Manufacturer,
   },
 }

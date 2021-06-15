@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt');
-const axios = require('axios');
+
 
 
 
@@ -10,7 +8,10 @@ const Manufacturer = db.define('manufacturer', {
   name: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   countryOfOrigin: {
     type: Sequelize.ENUM(),
@@ -18,7 +19,10 @@ const Manufacturer = db.define('manufacturer', {
   address: {
     type: Sequelize.STRING,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   description: {
     type: Sequelize.TEXT,
@@ -26,13 +30,17 @@ const Manufacturer = db.define('manufacturer', {
   },
   PhoneNumber: {
     type: Sequelize.INTEGER,
-    unique: true
+    unique: true,
+    validate: {
+      notEmpty: true
+    }
   },
   email: {
     type: Sequelize.STRING,
     unique: true,
     validate: {
-      isEmail: true
+      isEmail: true,
+      notEmpty: true
     }
   }
 })
