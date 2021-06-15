@@ -2,8 +2,9 @@
 
 const db = require('./db');
 
-const User = require('./models/User');
+
 const DistributionCenters = require('./models/distribution');
+const User = require('./models/user.js')
 
 //associations could go here!
 
