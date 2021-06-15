@@ -2,8 +2,14 @@
 
 const db = require('./db');
 
-const User = require('./models/User');
+
+
 const Furniture = require('./models/Furniture');
+
+
+const DistributionCenters = require('./models/distribution');
+const User = require('./models/user.js')
+
 
 //associations could go here!
 // Furniture.belongsTo(Manufacture);
@@ -14,5 +20,6 @@ module.exports = {
   models: {
     User,
     Furniture,
+    DistributionCenters,
   },
 };
