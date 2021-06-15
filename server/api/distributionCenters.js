@@ -9,6 +9,6 @@ router.get('/', async (req, res, next) => {
     const distributionCenters = await DistributionCenters.findAll();
     res.json(distributionCenters);
   } catch (error) {
-    next(err);
+    next(error);
   }
 });
