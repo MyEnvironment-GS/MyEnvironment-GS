@@ -1,14 +1,24 @@
 //this is the access point for all things database related!
 
-const db = require('./db')
+const db = require("./db");
 
-const Manufacturer = require('./models/manufacturer')
+const Furniture = require("./models/Furniture");
+
+const DistributionCenters = require("./models/distribution");
+const User = require("./models/user.js");
+
+const Manufacturer = require("./models/manufacturer");
 
 //associations could go here!
+// Furniture.belongsTo(Manufacture);
+// Manufacture.hasMany(Furniture);
 
 module.exports = {
   db,
   models: {
-   Manufacturer,
+    Manufacturer,
+    User,
+    Furniture,
+    DistributionCenters,
   },
-}
+};
