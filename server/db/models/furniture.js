@@ -10,12 +10,6 @@ const Furniture = db.define('Furniture', {
       notEmpty: true,
     },
   },
-  manufacture: {
-    type: Sequelize.STRING,
-    validate: {
-      notEmpty: true,
-    },
-  },
   productId: {
     type: Sequelize.STRING,
     allowNull: false,
