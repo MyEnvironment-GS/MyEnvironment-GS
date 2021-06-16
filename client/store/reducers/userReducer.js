@@ -1,6 +1,6 @@
 import { GET_USERS } from "../constants/constants";
 
-// USER REDUCER
+// USER REDUCERS
 
 
 export default (state = [], action) => {

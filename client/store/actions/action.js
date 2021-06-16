@@ -23,3 +23,10 @@ export const getMunufacturersInfo = (data) => {
     data
   }
 }
+
+export const getFurnitures = (data) => {
+  return {
+    type: GET_FURNITURES,
+    data
+  }
+}
