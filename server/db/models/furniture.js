@@ -20,6 +20,24 @@ const Furniture = db.define('Furniture', {
   season: {
     type: Sequelize.ENUM(['Spring', 'Summer', 'Fall', 'Winter']),
   },
+  category: {
+    type: Sequelize.ENUM([
+      'Office Chairs',
+      'Decorative Accents',
+      'Lounge Chairs',
+      'Sofas & Couches',
+      'Desks',
+      'Dining Tables',
+      'Accent Tables',
+      'Seating',
+      'Coffee Tables',
+      'Storage',
+      'Lighting',
+    ]),
+    validate: {
+      notEmpty: true,
+    },
+  },
   dimensions: {
     type: Sequelize.STRING,
   },
