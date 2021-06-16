@@ -62,7 +62,6 @@ async function seed() {
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${furniture.length} furniture pieces`)
   console.log(`seeded successfully`);
-}
 
 /*
  We've separated the `seed` function from the `runSeed` function.

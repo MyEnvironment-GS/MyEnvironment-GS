@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const Furniture = db.define('Furniture', {
+const Furniture = db.define('furniture', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -53,7 +53,7 @@ const Furniture = db.define('Furniture', {
   room: {
     type: Sequelize.ENUM([
       'Bedroom',
-      'Livingroom',
+      'Living Room',
       'Kitchen',
       'Dining Room',
       'Office',
