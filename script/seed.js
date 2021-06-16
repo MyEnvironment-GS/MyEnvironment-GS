@@ -1,5 +1,10 @@
 'use strict';
 
+const fs = require('fs')
+const furnitureData = JSON.parse(fs.readFileSync('./script/furnitureData.json', 'utf8'))
+const userData = JSON.parse(fs.readFileSync('./script/userData.json', 'utf8'))
+
+
 const {
   db,
   models: { User, Furniture },
@@ -14,98 +19,49 @@ async function seed() {
   console.log('db synced!');
 
   // Creating Users
-  const users = await Promise.all([
-    User.create({
-      username: 'cody',
-      password: '123',
-      firstName: 'Cody',
-      lastName: 'ThePug',
-      email: 'test@email.com',
-      phoneNumber: '(865)564-5497',
-    }),
-    User.create({
-      username: 'murphy',
-      password: '123',
-      firstName: 'Murphy',
-      lastName: 'James',
-      email: 'test2@email.com',
-      phoneNumber: '(800)624-7896',
-    }),
-  ]);
+
+
+  const users = await Promise.all(userData.map(user => User.create({
+    firstName: user.firstName,
+    lastName: user.lastName,
+    username: user.username,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    password: user.password,
+    userStatus: user.userStatus,
+    shippingName: user.shippingName,
+    shippingPhoneNumber: user.shippingPhoneNumber,
+    shippingStreet: user.shippingStreet,
+    shippingCity: user.shippingCity,
+    shippingState: user.shippingState,
+    shippingZipCode: user.shippingZipCode,
+    billingName: user.billingName,
+    billingPhoneNumber: user.billingPhoneNumber,
+    billingStreet: user.billingStreet,
+    billingCity: user.billingCity,
+    billingState: user.billingState,
+    billingZipCode: user.billingZipCode,
+  })));
 
   //creating furniture
-  const furniture = await Promise.all([
-    Furniture.create({
-      name: 'Aeron Chair',
-      productId: '111111',
-      season: 'Fall',
-      category: 'Office Chairs',
-      dimensions: '3 x 5 x 6',
-      price: 1215.0,
-      color: 'Black',
-      style: 'Contemporary',
-      room: 'Office',
-      description: 'hiuhuhbtdtvdccu bywbyb ybydvcby dvstftew',
-      imageUrl:
-        'https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/aeron_chairs/mh_prd_ovw_aeron_chairs.jpg.rendition.480.360.jpg',
-      stock: 4,
-    }),
-    Furniture.create({
-      name: 'Nelson Ball Clock',
-      productId: '222222',
-      season: 'Spring',
-      category: 'Decorative Accents',
-      dimensions: '12 x 4',
-      price: 440.0,
-      color: 'Multi',
-      style: 'Mid-Century',
-      room: 'Kitchen',
-      description: 'eoijww rhbcurwhu hnuinicuwdniucdw',
-      imageUrl:
-        'https://cdn2.newsok.biz/cache/r960-ddfaff028bf57611ec1bdb44a8d78459.jpg](https://cdn2.newsok.biz/cache/r960-ddfaff028bf57611ec1bdb44a8d78459.jpg',
-      stock: 15,
-    }),
-    Furniture.create({
-      name: 'Eames Lounge Ottoman',
-      productId: '333333',
-      season: 'Winter',
-      category: 'Lounge Chairs',
-      dimensions: '7 x 3 x 4',
-      price: 8495.0,
-      color: 'Black & Walnut',
-      style: 'Mid-Century',
-      room: 'Living Room',
-      description: 'uncubu uubcuhbcdew hhuydwcybydb',
-      imageUrl:
-        'https://www.hermanmiller.com/content/dam/hmicom/page_assets/products/eames_lounge_chair_and_ottoman/mh_prd_ovw_eames_lounge_chair_and_ottoman.jpg.rendition.480.360.jpg',
-      stock: 6,
-    }),
-    Furniture.create({
-      name: 'Frisbi Lamp',
-      productId: '444444',
-      season: 'Summer',
-      category: 'Lighting',
-      dimensions: '8 x 7',
-      price: 422.31,
-      color: 'Metal',
-      style: 'Contemporary',
-      room: 'Living Room',
-      description: 'uyuuyf uuyfdhcwjsjjs,m ;akpakcoi',
-      imageUrl:
-        '://flos.imgix.net/wp-content/uploads/2017/10/string-light-suspension-cone-anastassiades-flos-F6481030-product-still-life-big.jpg?auto=format',
-      stock: 3,
-    }),
-  ]);
+  const furniture = await Promise.all(furnitureData.map(furniture => Furniture.create({
+    name: furniture.name,
+    category: furniture.category,
+    price: furniture.price,
+    imageUrl: furniture.imageUrl,
+    productId: furniture.productId,
+    season: furniture.season,
+    dimensions: furniture.dimensions,
+    color: furniture.color,
+    room: furniture.room,
+    description: furniture.description,
+    stock: furniture.stock,
+    style: furniture.style
+  })));
+
   console.log(`seeded ${users.length} users`);
+  console.log(`seeded ${furniture.length} furniture pieces`)
   console.log(`seeded successfully`);
-  return {
-    users: {
-      cody: users[0],
-      murphy: users[1],
-    },
-    furniture,
-  };
-}
 
 /*
  We've separated the `seed` function from the `runSeed` function.
