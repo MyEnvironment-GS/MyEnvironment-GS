@@ -1,32 +1,40 @@
-import GET_USERS from "../constants/constants"
-import GET_DISTRIBUTIONS from "../constants/constants"
-import GET_MANUFACTURERSINFO from "../constants/constants"
+import GET_USERS from "../constants/constants";
+import GET_DISTRIBUTIONS from "../constants/constants";
+import GET_MANUFACTURERSINFO from "../constants/constants";
+import GET_CART from "../constants/constants";
 // ACTION CREATORS
 
 export const getUsers = (data) => {
   return {
     type: GET_USERS,
-    data
-  }
-}
+    data,
+  };
+};
 
 export const getDistributions = (data) => {
   return {
     type: GET_DISTRIBUTIONS,
-    data
-  }
-}
+    data,
+  };
+};
 
 export const getMunufacturersInfo = (data) => {
   return {
     type: GET_MANUFACTURERSINFO,
-    data
-  }
-}
+    data,
+  };
+};
 
 export const getFurnitures = (data) => {
   return {
     type: GET_FURNITURES,
+    data,
+  };
+};
+
+export const getCart = (data) => {
+  return {
+    type: GET_CART,
     data
   }
 }
