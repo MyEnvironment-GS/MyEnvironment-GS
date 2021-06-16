@@ -3,8 +3,16 @@ import {createLogger} from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import auth from './auth'
+import userReducer from './reducers/userReducer'
+import distributionReducer from './reducers/distributionReducer'
+import manufacturerReducer from './reducers/manufacturerReducer'
 
-const reducer = combineReducers({ auth })
+const reducer = combineReducers({
+  auth,
+  userReducer,
+  distributionReducer,
+  manufacturerReducer
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
