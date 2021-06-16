@@ -14,7 +14,7 @@ const Manufacturer = db.define('manufacturer', {
     }
   },
   countryOfOrigin: {
-    type: Sequelize.ENUM([italy, Germany ]),
+    type: Sequelize.ENUM(["Italy", "Germany" ]),
   },
   address: {
     type: Sequelize.STRING,
