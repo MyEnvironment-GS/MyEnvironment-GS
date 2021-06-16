@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-const Furniture = db.define('Furniture', {
+const Furniture = db.define('furniture', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -42,7 +42,7 @@ const Furniture = db.define('Furniture', {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
   },
   color: {
     type: Sequelize.STRING,
@@ -53,7 +53,7 @@ const Furniture = db.define('Furniture', {
   room: {
     type: Sequelize.ENUM([
       'Bedroom',
-      'Livingroom',
+      'Living Room',
       'Kitchen',
       'Dining Room',
       'Office',
@@ -63,7 +63,7 @@ const Furniture = db.define('Furniture', {
     type: Sequelize.TEXT,
   },
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue:
       'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
   },
