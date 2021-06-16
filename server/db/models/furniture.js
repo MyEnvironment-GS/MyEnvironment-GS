@@ -42,7 +42,7 @@ const Furniture = db.define('furniture', {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.STRING,
+    type: Sequelize.INTEGER,
   },
   color: {
     type: Sequelize.STRING,
