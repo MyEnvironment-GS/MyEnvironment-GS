@@ -17,6 +17,6 @@ module.exports = {
     Manufacturer,
     User,
     Furniture,
-    DistributionCenters,
-  },
+    DistributionCenters
+  }
 };
