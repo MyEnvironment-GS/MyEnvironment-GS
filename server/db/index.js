@@ -2,15 +2,21 @@
 
 const db = require('./db');
 
-
 const Furniture = require('./models/furniture.js');
-const DistributionCenters = require('./models/distribution');
+const DistributionCenters = require('./models/distribution.js');
 const User = require('./models/user.js');
-const Manufacturer = require('./models/manufacturer');
+const Manufacturer = require('./models/manufacturer.js');
+const ThroughTableCart = require('./models/throughTableCart.js');
+const Cart = require('./models/cart.js');
 
 //associations could go here!
-// Furniture.belongsTo(Manufacture);
-// Manufacture.hasMany(Furniture);
+
+Furniture.belongsTo(Manufacturer);
+Manufacturer.hasMany(Furniture);
+Cart.belongsTo(User);
+User.hasMany(Cart);
+Furniture.belongsToMany(Cart, { through: ThroughTableCart });
+Cart.belongsToMany(Furniture, { through: ThroughTableCart });
 
 module.exports = {
   db,
@@ -18,6 +24,8 @@ module.exports = {
     Manufacturer,
     User,
     Furniture,
-    DistributionCenters
+    DistributionCenters,
+    ThroughTableCart,
+    Cart
   }
 };
