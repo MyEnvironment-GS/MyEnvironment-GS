@@ -42,7 +42,7 @@ const Furniture = db.define('Furniture', {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
   },
   color: {
     type: Sequelize.STRING,
@@ -53,7 +53,7 @@ const Furniture = db.define('Furniture', {
   room: {
     type: Sequelize.ENUM([
       'Bedroom',
-      'Livingroom',
+      'Living Room',
       'Kitchen',
       'Dining Room',
       'Office',

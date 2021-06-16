@@ -103,6 +103,7 @@ async function seed() {
       cody: users[0],
       murphy: users[1],
     },
+    furniture,
   };
 }
 
