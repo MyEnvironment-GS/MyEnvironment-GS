@@ -42,7 +42,7 @@ const Furniture = db.define('Furniture', {
     type: Sequelize.STRING,
   },
   price: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
   },
   color: {
     type: Sequelize.STRING,
@@ -63,7 +63,7 @@ const Furniture = db.define('Furniture', {
     type: Sequelize.TEXT,
   },
   imageUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     defaultValue:
       'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
   },

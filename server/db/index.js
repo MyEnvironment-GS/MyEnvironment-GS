@@ -2,7 +2,7 @@
 
 const db = require("./db");
 
-const Furniture = require("./models/Furniture");
+const Furniture = require("./models/furniture");
 
 const DistributionCenters = require("./models/distribution");
 const User = require("./models/user.js");
