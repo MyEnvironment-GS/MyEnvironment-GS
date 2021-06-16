@@ -1,4 +1,6 @@
-const { Furniture } = require('../db');
+const {
+  models: { Furniture },
+} = require('../db');
 const router = require('express').Router();
 
 //GET api/furnture
