@@ -2,11 +2,9 @@
 
 const db = require('./db');
 
-const Furniture = require('./models/furniture');
-
+const Furniture = require('./models/furniture.js');
 const DistributionCenters = require('./models/distribution');
 const User = require('./models/user.js');
-
 const Manufacturer = require('./models/manufacturer');
 
 //associations could go here!
