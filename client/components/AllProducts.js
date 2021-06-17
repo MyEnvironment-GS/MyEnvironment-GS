@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { link } from 'react-router-dom';
+import { fetchAllFurnitures } from '../store/effects/furnitures';
 
 export class AllProducts extends Component {
+  constructor () {
+    super();
+  }
   componentDidMount () {
     this.props.fetch();
+    console.log(this.props);
   }
 
   // render () {
@@ -31,6 +36,8 @@ export class AllProducts extends Component {
   //   );
   // }
   render () {
+    const furniture = this.props.furniture.furnitures || [];
+    console.log(this);
     return (
       <div>
         <ul>
@@ -45,7 +52,7 @@ export class AllProducts extends Component {
                         <span className='card-title'>{furniture.name}</span>
                       </div>
                       <div className='card-content'>
-                        <p>{`Price: $${furniture.price}`}</p>
+                        <p>{`Price: $${furniture.price / 100}`}</p>
                       </div>
                     </div>
                   </div>
@@ -59,12 +66,18 @@ export class AllProducts extends Component {
   }
 }
 
+const mapState = state => {
+  return {
+    furniture: state
+  };
+};
+
 const mapDispatch = dispatch => {
   return {
     fetch: () => {
-      dispatch(fetchProducts());
+      dispatch(fetchAllFurnitures());
     }
   };
 };
 
-export default connect(mapDispatch)(AllProducts);
+export default connect(mapState, mapDispatch)(AllProducts);

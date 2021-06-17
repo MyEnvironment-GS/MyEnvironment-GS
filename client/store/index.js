@@ -8,6 +8,7 @@ import distributionsReducer from './reducers/distributionReducer'
 import manufacturersReducer from './reducers/manufacturerReducer'
 import furnituresRedux from './reducers/furnituresReducer'
 
+
 const reducer = combineReducers({
   auth,
   usersReducer,
@@ -15,10 +16,11 @@ const reducer = combineReducers({
   manufacturersReducer,
   furnituresRedux
 })
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
-)
-const store = createStore(reducer, middleware)
 
-export default store
-export * from './auth'
+const middleware = composeWithDevTools(
+  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+);
+const store = createStore(reducer, middleware);
+
+export default store;
+export * from './auth';

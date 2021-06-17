@@ -5,7 +5,7 @@ import { getFurnitures } from '../actions/action';
 // THUNK CREATORS
 
 export const fetchAllFurnitures = () => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
       const { data: allFurnitures } = await axios.get('/api/furniture');
       dispatch(getFurnitures(allFurnitures));
