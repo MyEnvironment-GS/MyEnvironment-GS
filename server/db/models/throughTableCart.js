@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
 
-const ThroughTableCart = db.define("through table carts", {
+const ThroughTableCart = db.define("cartsThroughTable", {
   quantity: {
     type: Sequelize.INTEGER,
     defaultValue: 1,

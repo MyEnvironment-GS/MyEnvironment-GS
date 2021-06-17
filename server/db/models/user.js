@@ -165,10 +165,6 @@ User.afterCreate(async function (user) {
   const userCart = await Cart.create({});
   await userCart.setUser(user);
 
-  const userCart2 = await Cart.create({});
-  await userCart2.setUser(user);
-
-
   const dummyFurniture = await Furniture.findByPk(1);
   const dummyFurniture2 = await Furniture.findByPk(2);
 
