@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { link } from 'react-router-dom';
+import { fetchAllFurnitures } from '../store/effects/furnitures';
 
 export class AllProducts extends Component {
+  constructor () {
+    super();
+  }
   componentDidMount () {
     this.props.fetch();
+    console.log(this.props);
   }
 
   // render () {
@@ -31,28 +36,30 @@ export class AllProducts extends Component {
   //   );
   // }
   render () {
+    console.log(this.props);
     return (
       <div>
         <ul>
-          {this.props.furniture.map(furniture => {
-            return (
-              <li key={furniture.id}>
-                <div className='row'>
-                  <div className='col s12 m7'>
-                    <div className='card'>
-                      <div className='card-image'>
-                        <img src={furniture.imageUrl}></img>
-                        <span className='card-title'>{furniture.name}</span>
-                      </div>
-                      <div className='card-content'>
-                        <p>{`Price: $${furniture.price}`}</p>
+          {this.props.data &&
+            this.props.data.map(furniture => {
+              return (
+                <li key={furniture.id}>
+                  <div className='row'>
+                    <div className='col s12 m7'>
+                      <div className='card'>
+                        <div className='card-image'>
+                          <img src={furniture.imageUrl}></img>
+                          <span className='card-title'>{furniture.name}</span>
+                        </div>
+                        <div className='card-content'>
+                          <p>{`Price: $${furniture.price}`}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
       </div>
     );
@@ -62,9 +69,9 @@ export class AllProducts extends Component {
 const mapDispatch = dispatch => {
   return {
     fetch: () => {
-      dispatch(fetchProducts());
+      dispatch(fetchAllFurnitures());
     }
   };
 };
 
-export default connect(mapDispatch)(AllProducts);
+export default connect(null, mapDispatch)(AllProducts);
