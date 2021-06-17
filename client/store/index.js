@@ -1,12 +1,12 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { createLogger } from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import auth from './auth';
-import usersReducer from './reducers/userReducer';
-import distributionsReducer from './reducers/distributionReducer';
-import manufacturersReducer from './reducers/manufacturerReducer';
-import furnitures from './reducers/furnitures';
+import {createStore, combineReducers, applyMiddleware} from 'redux'
+import {createLogger} from 'redux-logger'
+import thunkMiddleware from 'redux-thunk'
+import {composeWithDevTools} from 'redux-devtools-extension'
+import auth from './auth'
+import usersReducer from './reducers/userReducer'
+import distributionsReducer from './reducers/distributionReducer'
+import manufacturersReducer from './reducers/manufacturerReducer'
+import furnituresRedux from './reducers/furnituresReducer'
 
 
 const reducer = combineReducers({
@@ -14,8 +14,8 @@ const reducer = combineReducers({
   usersReducer,
   distributionsReducer,
   manufacturersReducer,
-  furnitures
-});
+  furnituresRedux
+})
 
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
