@@ -1,14 +1,14 @@
 import React from "react";
-import { fetchCart } from "../store/effects/cart";
 import { connect } from "react-redux";
 
 class Cart extends React.Component {
-  componentDidMount() {
-    this.props.loadCart();
-  }
+  // componentDidMount() {
+  //   this.props.loadCart();
+  // }
 
   render() {
-    const activeCartItems = this.props.activeCart.items || [];
+    const activeCartItems = [{name: "test", id: 1, quantity: 3, price: 3000}, {name: "test2", id: 2, quantity: 4, price: 245}]
+    // const activeCartItems = this.props.activeCart.items || [];
     const activeCart = this.props.activeCart || {};
     return (
       <div>
@@ -23,7 +23,7 @@ class Cart extends React.Component {
                 Price Total: {item.quantity * item.price}
               </h4>
               <button className="cart-Remove">Remove</button>
-              <buton>change quantity</buton>
+              <button>change quantity</button>
             </div>
           ))}
         </div>
@@ -43,7 +43,7 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  loadCart: () => dispatch(fetchCart()),
+  // loadCart: () => dispatch(fetchCart()),
 });
 
 export default connect(mapState, mapDispatch)(Cart);
