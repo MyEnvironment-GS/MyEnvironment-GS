@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 
 class Cart extends React.Component {
-  componentDidMount() {
-    this.props.loadCart();
-  }
+  // componentDidMount() {
+  //   this.props.loadCart();
+  // }
 
   render() {
     const activeCartItems = [{name: "test", id: 1, quantity: 3, price: 3000}, {name: "test2", id: 2, quantity: 4, price: 245}]
@@ -43,7 +43,7 @@ const mapState = (state) => ({
 });
 
 const mapDispatch = (dispatch) => ({
-  loadCart: () => dispatch(fetchCart()),
+  // loadCart: () => dispatch(fetchCart()),
 });
 
 export default connect(mapState, mapDispatch)(Cart);
