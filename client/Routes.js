@@ -6,18 +6,17 @@ import Home from './components/Home';
 
 import { me } from './store';
 import AllProducts from './components/AllProducts';
-import Cart from './components/Cart'
-
+import Cart from './components/Cart';
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.loadInitialData();
   }
 
-  render () {
+  render() {
     const { isLoggedIn } = this.props;
 
     return (
@@ -26,15 +25,15 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             <Route path="/cart" component={Cart} />
-            <Route path='/allproducts' component={AllProducts} />
+            <Route path="/allproducts" component={AllProducts} />
             <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
-            <Route path='/' exact component={ Login } />
+            <Route path="/" exact component={Login} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path='/allproducts' component={AllProducts} />
+            <Route path="/allproducts" component={AllProducts} />
             <Route path="/cart" component={Cart} />
           </Switch>
         )}
@@ -46,19 +45,19 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    loadInitialData () {
+    loadInitialData() {
       dispatch(me());
-    }
+    },
   };
 };
 
