@@ -34,7 +34,7 @@ export class AllProducts extends Component {
     return (
       <div>
         <ul>
-          {furniture.map(furniture => {
+          {this.props.furniture.map(furniture => {
             return (
               <li key={furniture.id}>
                 <div className='row'>
