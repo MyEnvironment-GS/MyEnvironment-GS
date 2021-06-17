@@ -7,9 +7,8 @@ import { getFurnitures } from '../actions/action';
 export const fetchAllFurnitures = () => {
   return async dispatch => {
     try {
-      const { data: AllFurnitures } = await axios.get('/api/furniture');
-      console.log('got here');
-      dispatch(getFurnitures(AllFurnitures));
+      const { data: allFurnitures } = await axios.get('/api/furniture');
+      dispatch(getFurnitures(allFurnitures));
     } catch (error) {
       console.log(error);
     }
