@@ -1,5 +1,4 @@
 import React from "react";
-import { fetchCart } from "../store/effects/cart";
 import { connect } from "react-redux";
 
 class Cart extends React.Component {
