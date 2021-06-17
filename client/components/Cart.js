@@ -1,11 +1,44 @@
 import React from "react";
 import { connect } from "react-redux";
+import {
+  Grid,
+  Paper,
+  Typography,
+  ButtonBase,
+  withStyles,
+  Button,
+  TextField,
+} from "@material-ui/core";
+
+const useStyles = (theme) => ({
+  cardRoot: {
+    flexGrow: 1,
+  },
+  cartCard: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    marginTop: 10,
+    maxWidth: 750,
+  },
+  cartItemImage: {
+    width: 128,
+    height: 128,
+  },
+  cartItemImg: {
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%",
+  },
+  cartButton: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    marginTop: 20,
+    maxWidth: 750,
+  },
+});
 
 class Cart extends React.Component {
-  // componentDidMount() {
-  //   this.props.loadCart();
-  // }
-
   render() {
     const carts = this.props.carts || [];
 
@@ -13,42 +46,103 @@ class Cart extends React.Component {
     const activeCart = filterCarts[0] || [];
     const cartItems = activeCart.furniture || [];
 
-    let checkoutSummary = []
-    cartItems.forEach(item => checkoutSummary.push({id: item.id, price: item.price, quantity: item.cartsThroughTable.quantity}))
+    let checkoutSummary = [];
+    cartItems.forEach((item) =>
+      checkoutSummary.push({
+        id: item.id,
+        price: item.price,
+        quantity: item.cartsThroughTable.quantity,
+      })
+    );
 
-
-
-    let summaryTotal = 0
+    let summaryTotal = 0;
     checkoutSummary.forEach((item) => {
-      summaryTotal += (item.quantity * item.price)
-    })
+      summaryTotal += item.quantity * item.price;
+    });
 
+    const { classes } = this.props;
 
     return (
-      <div>
-        <h2>your cart</h2>
+      <div className={classes.cardRoot}>
+        <Grid container className={classes.cartCard}>
+          <Grid item xs={12}>
+            <Typography gutterBottom variant="h3">
+              your cart
+            </Typography>
+          </Grid>
+        </Grid>
         <div className="cart-ItemsContainer">
           {cartItems.map((item) => (
-            <div className="cart-Item" key={item.id}>
-              <img src={item.imageUrl} alt="cart-ItemPicture" />
-              <h3 className="cart-ItemName">{item.name}</h3>
-              <h4 className="cart-ItemQty">
-                x{item.cartsThroughTable.quantity}
-              </h4>
-              <h4 className="cart-ItemTotal">
-                Price Total: ${item.price / 100}
-              </h4>
-              <button className="cart-Remove">Remove</button>
-              <button>change quantity</button>
-            </div>
+            <Paper className={classes.cartCard} key={item.id}>
+              <Grid container spacing={2}>
+                <Grid item>
+                  <ButtonBase className={classes.cartItemImage}>
+                    <img
+                      className={classes.cartItemImg}
+                      src={item.imageUrl}
+                      alt="cart-ItemPicture"
+                    />
+                  </ButtonBase>
+                </Grid>
+                <Grid item xs={12} sm container>
+                  <Grid item xs container direction="column" spacing={2}>
+                    <Grid item>
+                      <Typography gutterBottom variant="body1">
+                        {item.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography gutterBottom variant="subtitle2">
+                        {item.productId}
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography gutterBottom variant="subtitle2">
+                        <TextField
+                          id="standard-number"
+                          type="number"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <Typography gutterBottom variant="body2">
+                        Price Total: ${item.price / 100}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2" style={{ cursor: "pointer" }}>
+                    Remove
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Paper>
           ))}
         </div>
-        <div className="cart-TotalSection">
-          <h3 className="cart-TotalSectionDetails">subtotal: ${summaryTotal/100} </h3>
-          <h3 className="cart-TotalSectionDetails">shipping and taxes: ${(summaryTotal * 0.4)/100} </h3>
-          <h3 className="cart-Total">total: ${((summaryTotal * 1.4)/100).toFixed(2)} </h3>
-        </div>
-        <button className="cart-CheckoutButton">checkout</button>
+        <Paper className={classes.cartCard}>
+          <Typography gutterBottom variant="subtitle2">
+            subtotal: ${(summaryTotal / 100).toFixed(2)}
+          </Typography>
+          <Typography gutterBottom variant="subtitle2">
+            shipping and taxes: ${((summaryTotal * 0.4) / 100).toFixed(2)}
+          </Typography>
+          <Typography gutterBottom variant="subtitle2">
+            total: ${((summaryTotal * 1.4) / 100).toFixed(2)}
+          </Typography>
+        </Paper>
+        <Grid container spacing={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.cartButton}
+          >
+            Continue to Checkout
+          </Button>
+        </Grid>
       </div>
     );
   }
@@ -62,4 +156,5 @@ const mapDispatch = (dispatch) => ({
   // loadCart: () => dispatch(fetchCart()),
 });
 
-export default connect(mapState, mapDispatch)(Cart);
+const CartWithState = connect(mapState, mapDispatch)(Cart);
+export default withStyles(useStyles)(CartWithState);
