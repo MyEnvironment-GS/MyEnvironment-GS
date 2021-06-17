@@ -31,10 +31,3 @@ export const getFurnitures = (data) => {
     data,
   };
 };
-
-export const getCart = (data) => {
-  return {
-    type: GET_CART,
-    data
-  }
-}
