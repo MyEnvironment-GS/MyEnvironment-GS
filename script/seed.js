@@ -19,6 +19,26 @@ async function seed () {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
+  //creating furniture
+  const furniture = await Promise.all(
+    furnitureData.map(furniture =>
+      Furniture.create({
+        name: furniture.name,
+        category: furniture.category,
+        price: furniture.price,
+        imageUrl: furniture.imageUrl,
+        productId: furniture.productId,
+        season: furniture.season,
+        dimensions: furniture.dimensions,
+        color: furniture.color,
+        room: furniture.room,
+        description: furniture.description,
+        stock: furniture.stock,
+        style: furniture.style
+      })
+    )
+  );
+
   // Creating Users
 
   const users = await Promise.all(
@@ -47,25 +67,6 @@ async function seed () {
     )
   );
 
-  //creating furniture
-  const furniture = await Promise.all(
-    furnitureData.map(furniture =>
-      Furniture.create({
-        name: furniture.name,
-        category: furniture.category,
-        price: furniture.price,
-        imageUrl: furniture.imageUrl,
-        productId: furniture.productId,
-        season: furniture.season,
-        dimensions: furniture.dimensions,
-        color: furniture.color,
-        room: furniture.room,
-        description: furniture.description,
-        stock: furniture.stock,
-        style: furniture.style
-      })
-    )
-  );
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${furniture.length} furniture pieces`);
