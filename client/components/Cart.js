@@ -7,39 +7,22 @@ class Cart extends React.Component {
   // }
 
   render() {
-    const activeCartItems = [
-      { name: "test", id: 1, quantity: 3, price: 3000 },
-      { name: "test2", id: 2, quantity: 4, price: 245 },
-    ];
-
     const carts = this.props.carts || [];
-
-    const dummyCart = { id: 2, fulfilled: true };
-    carts.push(dummyCart);
-    console.log('carts', carts);
 
     const filterCarts = carts.filter((cart) => cart.fulfilled === false);
     const activeCart = filterCarts[0] || [];
     const cartItems = activeCart.furniture || [];
 
-
-    // let totalPrice = 0
-    // if(cartItems.length > 0) {
-    //   totalPrice = cartItems.reduce(function(accum, curr)  {
-    //     return (accum + (curr.price * (curr.cartsThroughTable.quantity))/100)})
-    // }
-
     let checkoutSummary = []
     cartItems.forEach(item => checkoutSummary.push({id: item.id, price: item.price, quantity: item.cartsThroughTable.quantity}))
 
-    console.log('checkoutSum', checkoutSummary)
+
 
     let summaryTotal = 0
     checkoutSummary.forEach((item) => {
       summaryTotal += (item.quantity * item.price)
     })
 
-    console.log(activeCart);
 
     return (
       <div>
