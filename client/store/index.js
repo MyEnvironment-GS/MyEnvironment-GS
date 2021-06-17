@@ -7,11 +7,12 @@ import usersReducer from './reducers/userReducer'
 import distributionsReducer from './reducers/distributionReducer'
 import manufacturersReducer from './reducers/manufacturerReducer'
 
+
 const reducer = combineReducers({
   auth,
   usersReducer,
   distributionsReducer,
-  manufacturersReducer
+  manufacturersReducer,
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
