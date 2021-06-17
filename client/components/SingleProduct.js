@@ -13,7 +13,9 @@ export class SingleProduct extends React.Component {
   }
 
   addToCart = event => {
-    //PLACEHOLDER
+    // isLoggedIn ? //do this
+    // :
+    // // do this
   };
 
   render () {
@@ -35,7 +37,7 @@ export class SingleProduct extends React.Component {
 
 const mapState = state => {
   return {
-    furniture: state
+    furniture: state.furnitureReducer
   };
 };
 
