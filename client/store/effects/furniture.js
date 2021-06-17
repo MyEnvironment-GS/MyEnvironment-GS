@@ -11,3 +11,14 @@ export const fetchFurniture = id => {
     }
   };
 };
+
+// export const addToCart = (id, cartId) => {
+//   return async dispatch => {
+//     try {
+//       const item = await axios.get(`api/furniture/${id}`);
+//       const cart = await axios.put();
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+// };

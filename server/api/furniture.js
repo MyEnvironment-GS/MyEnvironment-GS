@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
     const furniture = await Furniture.findAll();
     res.json(furniture);
   } catch (error) {
-    next(error);
+    throw error;
   }
 });
 

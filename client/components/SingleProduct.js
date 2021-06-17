@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchFurniture } from '../store/effects/furniture';
+import { addToCart } from '../store/effects/furniture';
 
 export class SingleProduct extends React.Component {
   constructor () {
@@ -45,6 +46,9 @@ const mapDispatch = dispatch => {
   return {
     fetch: id => {
       dispatch(fetchFurniture(id));
+    },
+    addItemToCart: (id, cartId) => {
+      dispatch(addToCart(id, cartId));
     }
   };
 };
