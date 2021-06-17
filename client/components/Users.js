@@ -9,9 +9,10 @@ export class Users extends Component {
   }
 
   render() {
+    const user = this.props.user || []
     return (
       <div>
-        {this.props.users.map((user) => (
+        {user.map((user) => (
           <ul>
             <li>{user.username}</li>
           </ul>
