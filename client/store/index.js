@@ -8,6 +8,7 @@ import distributionsReducer from './reducers/distributionReducer';
 import manufacturersReducer from './reducers/manufacturerReducer';
 import furnitures from './reducers/furnitures';
 
+
 const reducer = combineReducers({
   auth,
   usersReducer,
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   manufacturersReducer,
   furnitures
 });
+
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
 );
