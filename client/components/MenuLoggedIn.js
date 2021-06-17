@@ -11,6 +11,10 @@ export default function SimpleMenuLoggedIn() {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleSignOut = (event) => {
+    window.localStorage.removeItem('token');
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -42,7 +46,7 @@ export default function SimpleMenuLoggedIn() {
             <MenuItem onClick={handleClose}>ABOUT US</MenuItem>
           </Link>
           <Link to="/login">
-            <MenuItem onClick={handleClose}>SIGN OUT</MenuItem>
+            <MenuItem onClick={handleSignOut}>SIGN OUT</MenuItem>
           </Link>
           <Link to="/admin">
             <MenuItem onClick={handleClose}>ADMIN</MenuItem>
