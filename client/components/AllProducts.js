@@ -36,35 +36,41 @@ export class AllProducts extends Component {
   //   );
   // }
   render () {
-    console.log(this.props);
+    const furniture = this.props.furniture.furnitures || [];
+    console.log(this);
     return (
       <div>
         <ul>
-          {this.props.data &&
-            this.props.data.map(furniture => {
-              return (
-                <li key={furniture.id}>
-                  <div className='row'>
-                    <div className='col s12 m7'>
-                      <div className='card'>
-                        <div className='card-image'>
-                          <img src={furniture.imageUrl}></img>
-                          <span className='card-title'>{furniture.name}</span>
-                        </div>
-                        <div className='card-content'>
-                          <p>{`Price: $${furniture.price}`}</p>
-                        </div>
+          {furniture.map(furniture => {
+            return (
+              <li key={furniture.id}>
+                <div className='row'>
+                  <div className='col s12 m7'>
+                    <div className='card'>
+                      <div className='card-image'>
+                        <img src={furniture.imageUrl}></img>
+                        <span className='card-title'>{furniture.name}</span>
+                      </div>
+                      <div className='card-content'>
+                        <p>{`Price: $${furniture.price / 100}`}</p>
                       </div>
                     </div>
                   </div>
-                </li>
-              );
-            })}
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
   }
 }
+
+const mapState = state => {
+  return {
+    furniture: state
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
@@ -74,4 +80,4 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default connect(null, mapDispatch)(AllProducts);
+export default connect(mapState, mapDispatch)(AllProducts);
