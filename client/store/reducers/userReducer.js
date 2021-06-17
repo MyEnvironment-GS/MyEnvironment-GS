@@ -2,11 +2,13 @@ import { GET_USERS } from "../constants/constants";
 
 // USER REDUCERS
 
-
-export default (state = [], action) => {
+const intialState = {
+  users: []
+}
+export default (state = intialState, action) => {
   switch (action.type) {
     case GET_USERS:
-      return  action.data
+      return {...state, users: action.data }
       default:
       return state
   }

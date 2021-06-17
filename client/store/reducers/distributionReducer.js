@@ -2,10 +2,13 @@ import { GET_DISTRIBUTIONS, } from "../constants/constants";
 
 // DISTRIBUTIONS REDUCER
 
-export default (state = [], action) => {
+const intialState = {
+  distributions: []
+}
+export default (state = intialState, action) => {
   switch (action.type) {
     case GET_DISTRIBUTIONS:
-      return action.data
+      return {...state, distribution: action.data }
     default:
       return state
   };

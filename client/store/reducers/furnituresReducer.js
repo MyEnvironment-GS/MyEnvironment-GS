@@ -1,10 +1,12 @@
 import { GET_FURNITURES } from  "../constants/constants"
 
-
-export default (state = [], action) => {
+const initialState = {
+  furnitures: []
+}
+export default (state = initialState, action) => {
   switch (action.type) {
     case GET_FURNITURES:
-      return action.data
+      return { ...state , furnitures: action.data }
     default:
       return state
   }

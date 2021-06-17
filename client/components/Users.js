@@ -6,20 +6,23 @@ import { usersReducer } from '../store/reducers/userReducer'
 export class Users extends Component {
   componentDidMount() {
     this.props.loadUsers()
-    console.log(this.props.users)
   }
 
   render() {
     return (
       <div>
-
+        {this.props.users.map((user) => (
+          <ul>
+            <li>{user.username}</li>
+          </ul>
+        ))}
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-   users: usersReducer
+   users: state.usersReducer.users
 })
 
 const mapDispatchToProps = (dispatch) => {
