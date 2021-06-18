@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchFurniture } from '../store/effects/furniture';
+import axios from 'axios';
 // import { addToCart } from '../store/effects/furniture';
 
 export class SingleProduct extends React.Component {
@@ -13,10 +14,17 @@ export class SingleProduct extends React.Component {
     console.log(this.props, 'props');
   }
 
-  addToCart = event => {
+  addToCart = async event => {
+    // console.log(event.target.name, 'event');
     // isLoggedIn ? //do this
     // :
     // // do this
+    // axios.post(`/${Number(event.target.name)}`);
+    console.log(await axios.get('/furniture/usercart'), 'get');
+    await axios.post('/cart', {
+      furnitureId: Number(event.target.name),
+      cartId: this.state.auth.carts
+    });
   };
 
   render () {
@@ -28,7 +36,9 @@ export class SingleProduct extends React.Component {
         <p>{`${furniture.description}`}</p>
         <h3>{`Price: ${furniture.price / 100}`}</h3>
         <h3>{`Manufacturer: ${furniture.manufacturer}`}</h3>
-        <button onClick={this.addToCart}>add to cart</button>
+        <button name={furniture.id} onClick={this.addToCart}>
+          add to cart
+        </button>
         <p>{`dimensions: ${furniture.dimensions}`}</p>
         {/* <p>{`Country Of Origin: ${this.props.furniture.}`}</p> */}
       </div>

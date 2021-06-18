@@ -23,13 +23,3 @@ router.get('/:id', async (req, res, next) => {
 //     throw error;
 //   }
 // });
-
-router.post('/:id', async (req, res, next) => {
-  try {
-    const user = await User.findByToken(window.localStorage.getItem('token'));
-    console.log(user);
-    // user.Cart.build({ });
-  } catch (error) {
-    throw error;
-  }
-});
