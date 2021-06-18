@@ -28,6 +28,7 @@ class Routes extends Component {
             <Route path="/cart" component={Cart} />
             <Route path="/furniture/:id" component={SingleProduct} />
             <Route path="/furniture" component={AllProducts} />
+            <Route path="/about" component={About} />
             <Redirect to="/home" />
           </Switch>
         ) : (
@@ -38,6 +39,7 @@ class Routes extends Component {
             <Route path="/furniture/:id" component={SingleProduct} />
             <Route path="/furniture" component={AllProducts} />
             <Route path="/cart" component={Cart} />
+            <Route path="/about" component={About} />
           </Switch>
         )}
       </div>
