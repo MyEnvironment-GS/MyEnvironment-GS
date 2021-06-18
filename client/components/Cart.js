@@ -39,27 +39,51 @@ const useStyles = (theme) => ({
 });
 
 class Cart extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      carts: [],
+      activeCart: [],
+      cartItems: [],
+      checkoutSummary: [],
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.props.carts[0].furniture[
+      Number(event.target.id) - 1
+    ].cartsThroughTable.quantity = event.target.value;
+    this.setState({});
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.carts && this.props.carts[0].furniture) {
+      const activeCart = this.props.carts.filter(
+        (cart) => cart.fulfilled === false
+      )[0];
+      const cartItems = activeCart.furniture;
+
+      this.setState({
+        carts: this.props.carts,
+        activeCart: activeCart,
+        cartItems: cartItems,
+      });
+    }
+  }
+
   render() {
-    const carts = this.props.carts || [];
+    const carts = this.state.carts || [];
+    const activeCart = this.state.activeCart || [];
+    const cartItems = this.state.cartItems || [];
 
-    const filterCarts = carts.filter((cart) => cart.fulfilled === false);
-    const activeCart = filterCarts[0] || [];
-    const cartItems = activeCart.furniture || [];
+    const summaryReducer = (accum, item) => {
+      return accum + item.price * item.cartsThroughTable.quantity;
+    };
+    let summaryTotal = cartItems.reduce(summaryReducer, 0);
 
-    let checkoutSummary = [];
-    cartItems.forEach((item) =>
-      checkoutSummary.push({
-        id: item.id,
-        price: item.price,
-        quantity: item.cartsThroughTable.quantity,
-      })
-    );
-
-    let summaryTotal = 0;
-    checkoutSummary.forEach((item) => {
-      summaryTotal += item.quantity * item.price;
-    });
-
+    const { handleChange } = this;
     const { classes } = this.props;
 
     return (
@@ -99,8 +123,12 @@ class Cart extends React.Component {
                     <Grid item>
                       <Typography gutterBottom variant="subtitle2">
                         <TextField
-                          id="standard-number"
+                          className={classes.inputField}
+                          id={`${item.id}`}
                           type="number"
+                          value={item.cartsThroughTable.quantity}
+                          name="itemQuantity"
+                          onChange={handleChange}
                           InputLabelProps={{
                             shrink: true,
                           }}
@@ -109,7 +137,8 @@ class Cart extends React.Component {
                     </Grid>
                     <Grid item>
                       <Typography gutterBottom variant="body2">
-                        Price Total: ${item.price / 100}
+                        Price Total: $
+                        {(item.price * item.cartsThroughTable.quantity) / 100}
                       </Typography>
                     </Grid>
                   </Grid>
