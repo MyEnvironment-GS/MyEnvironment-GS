@@ -8,20 +8,48 @@ const userData = JSON.parse(fs.readFileSync('./script/userData.json', 'utf8'));
 
 const {
   db,
-  models: { User, Furniture }
+  models: { User, Furniture, Biography },
 } = require('../server/db');
 
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
-async function seed () {
+
+const biographies = [
+  {
+    name: 'Joseph',
+    description: 'Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah',
+    imageUrl:
+      'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
+  },
+  {
+    name: 'Cody',
+    description: 'Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah',
+    imageUrl:
+      'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
+  },
+  {
+    name: 'Michael G',
+    description: 'Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah',
+    imageUrl:
+      'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
+  },
+  {
+    name: 'Michael B',
+    description: 'Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah',
+    imageUrl:
+      'https://cdn1.vectorstock.com/i/thumb-large/77/30/default-avatar-profile-icon-grey-photo-placeholder-vector-17317730.jpg',
+  },
+];
+
+async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
   console.log('db synced!');
 
   //creating furniture
   const furniture = await Promise.all(
-    furnitureData.map(furniture =>
+    furnitureData.map((furniture) =>
       Furniture.create({
         name: furniture.name,
         category: furniture.category,
@@ -34,7 +62,7 @@ async function seed () {
         room: furniture.room,
         description: furniture.description,
         stock: furniture.stock,
-        style: furniture.style
+        style: furniture.style,
       })
     )
   );
@@ -42,7 +70,7 @@ async function seed () {
   // Creating Users
 
   const users = await Promise.all(
-    userData.map(user =>
+    userData.map((user) =>
       User.create({
         firstName: user.firstName,
         lastName: user.lastName,
@@ -62,14 +90,20 @@ async function seed () {
         billingStreet: user.billingStreet,
         billingCity: user.billingCity,
         billingState: user.billingState,
-        billingZipCode: user.billingZipCode
+        billingZipCode: user.billingZipCode,
       })
     )
   );
 
+  const bios = await Promise.all(
+    biographies.map((bio) => {
+      return Biography.create(bio);
+    })
+  );
 
   console.log(`seeded ${users.length} users`);
   console.log(`seeded ${furniture.length} furniture pieces`);
+  console.log(`seeded ${bios.length} bios`);
   console.log(`seeded successfully`);
 }
 /*
@@ -77,7 +111,7 @@ async function seed () {
  This way we can isolate the error handling and exit trapping.
  The `seed` function is concerned only with modifying the database.
 */
-async function runSeed () {
+async function runSeed() {
   console.log('seeding...');
   try {
     await seed();

@@ -11,6 +11,10 @@ const Biography = db.define('biography', {
     },
     description: {
       type: Sequelize.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
     },
     imageUrl: {
       type: Sequelize.TEXT,
