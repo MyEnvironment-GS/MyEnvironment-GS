@@ -36,7 +36,7 @@ export class AllProducts extends Component {
   //   );
   // }
   render () {
-    const furniture = this.props.furniture.furnitures || [];
+    const furniture = this.props.furniture.furnituresRedux || [];
     console.log(this);
     return (
       <div>
