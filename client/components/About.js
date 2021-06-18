@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { link } from 'react-router-dom';
+//import { link } from 'react-router-dom';
 import { fetchAllBiographies } from '../store/effects/biographies';
 
 export class AllBiographies extends Component {
