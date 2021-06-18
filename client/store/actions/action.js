@@ -10,7 +10,6 @@ export const getUsers = data => {
   return {
     type: GET_USERS,
     data,
-
   };
 };
 

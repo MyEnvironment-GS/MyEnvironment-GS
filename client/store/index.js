@@ -11,7 +11,7 @@ import furnituresRedux from './reducers/furnituresReducer'
 
 const reducer = combineReducers({
   auth,
-  usersReducer,
+  users: usersReducer,
   distributionsReducer,
   manufacturersReducer,
   furnituresRedux
