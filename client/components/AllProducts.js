@@ -4,10 +4,10 @@ import { link } from 'react-router-dom';
 import { fetchAllFurnitures } from '../store/effects/furnitures';
 
 export class AllProducts extends Component {
-  constructor () {
+  constructor() {
     super();
   }
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetch();
     console.log(this.props);
   }
@@ -35,23 +35,23 @@ export class AllProducts extends Component {
 
   //   );
   // }
-  render () {
+  render() {
     const furniture = this.props.furniture.furnitures || [];
     console.log(this);
     return (
       <div>
         <ul>
-          {furniture.map(furniture => {
+          {furniture.map((furniture) => {
             return (
               <li key={furniture.id}>
-                <div className='row'>
-                  <div className='col s12 m7'>
-                    <div className='card'>
-                      <div className='card-image'>
+                <div className="row">
+                  <div className="col s12 m7">
+                    <div className="card">
+                      <div className="card-image">
                         <img src={furniture.imageUrl}></img>
-                        <span className='card-title'>{furniture.name}</span>
+                        <span className="card-title">{furniture.name}</span>
                       </div>
-                      <div className='card-content'>
+                      <div className="card-content">
                         <p>{`Price: $${furniture.price / 100}`}</p>
                       </div>
                     </div>
@@ -66,17 +66,17 @@ export class AllProducts extends Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    furniture: state
+    furniture: state,
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
     fetch: () => {
       dispatch(fetchAllFurnitures());
-    }
+    },
   };
 };
 

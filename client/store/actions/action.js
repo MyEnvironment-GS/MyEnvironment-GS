@@ -3,40 +3,48 @@ import GET_DISTRIBUTIONS from '../constants/constants';
 import GET_MANUFACTURERSINFO from '../constants/constants';
 import { GET_FURNITURES } from '../constants/constants';
 import { GET_FURNITURE } from '../constants/constants';
+import GET_BIOGRAPHIES from '../constants/constants';
 
 // ACTION CREATORS
 
-export const getUsers = data => {
+export const getUsers = (data) => {
   return {
     type: GET_USERS,
-    data
+    data,
   };
 };
 
-export const getDistributions = data => {
+export const getDistributions = (data) => {
   return {
     type: GET_DISTRIBUTIONS,
-    data
+    data,
   };
 };
 
-export const getManufacturersInfo = data => {
+export const getManufacturersInfo = (data) => {
   return {
     type: GET_MANUFACTURERSINFO,
-    data
+    data,
   };
 };
 
-export const getFurnitures = data => {
+export const getFurnitures = (data) => {
   return {
     type: GET_FURNITURES,
-    data
+    data,
   };
 };
 
-export const getFurniture = data => {
+export const getFurniture = (data) => {
   return {
     type: GET_FURNITURE,
-    data
+    data,
+  };
+};
+
+export const getBiographies = (data) => {
+  return {
+    type: GET_BIOGRAPHIES,
+    data,
   };
 };

@@ -3,23 +3,8 @@ import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { withStyles } from '@material-ui/core/styles';
 
-// 1. We define the styles.
-const styles = (theme) => ({
-  root: {
-    color: 'inherit',
-    textDecoration: 'inherit',
-    '&:hover': {
-      textDecoration: 'underline',
-    },
-  },
-  primary: {
-    color: theme.palette.primary.main,
-  },
-});
-
-export default function SimpleMenu() {
+export default function SimpleMenuNotLoggedIn() {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -50,10 +35,18 @@ export default function SimpleMenu() {
           <Link to="/home">
             <MenuItem onClick={handleClose}>HOME</MenuItem>
           </Link>
-          <MenuItem onClick={handleClose}>ALL PRODUCTS</MenuItem>
-          <MenuItem onClick={handleClose}>ABOUT US</MenuItem>
-          <MenuItem onClick={handleClose}>SIGN OUT</MenuItem>
-          <MenuItem onClick={handleClose}>ADMIN</MenuItem>
+          <Link to="/furniture">
+            <MenuItem onClick={handleClose}>ALL PRODUCTS</MenuItem>
+          </Link>
+          <Link to="about">
+            <MenuItem onClick={handleClose}>ABOUT US</MenuItem>
+          </Link>
+          <Link to="/login">
+            <MenuItem onClick={handleClose}>SIGN IN</MenuItem>
+          </Link>
+          <Link to="/signup">
+            <MenuItem onClick={handleClose}>SIGN UP</MenuItem>
+          </Link>
         </div>
       </Menu>
     </div>

@@ -13,31 +13,33 @@ import Cart from './components/Cart';
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.loadInitialData();
   }
 
-  render () {
+  render() {
     const { isLoggedIn } = this.props;
 
     return (
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path='/home' component={Home} />
-            <Route path='/cart' component={Cart} />
-            <Route path='/furniture/:id' component={SingleProduct} />
-            <Route path='/furniture' component={AllProducts} />
-            <Redirect to='/home' />
+            <Route path="/home" component={Home} />
+            <Route path="/cart" component={Cart} />
+            <Route path="/furniture/:id" component={SingleProduct} />
+            <Route path="/furniture" component={AllProducts} />
+            <Route path="/about" component={About} />
+            <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
-            <Route path='/' exact component={Login} />
-            <Route path='/login' component={Login} />
-            <Route path='/signup' component={Signup} />
-            <Route path='/furniture/:id' component={SingleProduct} />
-            <Route path='/furniture' component={AllProducts} />
-            <Route path='/cart' component={Cart} />
+            <Route path="/" exact component={Login} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/furniture/:id" component={SingleProduct} />
+            <Route path="/furniture" component={AllProducts} />
+            <Route path="/cart" component={Cart} />
+            <Route path="/about" component={About} />
           </Switch>
         )}
       </div>
@@ -48,19 +50,19 @@ class Routes extends Component {
 /**
  * CONTAINER
  */
-const mapState = state => {
+const mapState = (state) => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.auth that has a truthy id.
     // Otherwise, state.auth will be an empty object, and state.auth.id will be falsey
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    loadInitialData () {
+    loadInitialData() {
       dispatch(me());
-    }
+    },
   };
 };
 

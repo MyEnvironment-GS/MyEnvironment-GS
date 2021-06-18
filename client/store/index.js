@@ -8,6 +8,7 @@ import distributionsReducer from './reducers/distributionReducer';
 import manufacturersReducer from './reducers/manufacturerReducer';
 import furnituresRedux from './reducers/furnituresReducer';
 import furnitureReducer from './reducers/furnitureReducer';
+import biographiesReducer from './reducers/biographiesReducer';
 
 const reducer = combineReducers({
   auth,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   distributionsReducer,
   manufacturersReducer,
   furnituresRedux,
-  furnitureReducer
+  furnitureReducer,
+  biographiesReducer,
 });
 
 const middleware = composeWithDevTools(
