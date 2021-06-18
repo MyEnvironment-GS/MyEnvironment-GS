@@ -73,6 +73,18 @@ class Cart extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const activeCart = this.props.carts.filter(
+      (cart) => cart.fulfilled === false
+    )[0];
+    const cartItems = activeCart.furniture;
+    this.setState({
+      carts: this.props.carts,
+      activeCart: activeCart,
+      cartItems: cartItems,
+    });
+  }
+
   render() {
     const carts = this.state.carts || [];
     const activeCart = this.state.activeCart || [];
