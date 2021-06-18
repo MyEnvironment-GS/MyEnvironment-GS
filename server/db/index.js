@@ -8,6 +8,7 @@ const User = require('./models/user.js');
 const Manufacturer = require('./models/manufacturer.js');
 const ThroughTableCart = require('./models/throughTableCart.js');
 const Cart = require('./models/cart.js');
+const Biography = require('./models/biography.js');
 
 //associations could go here!
 
@@ -26,6 +27,7 @@ module.exports = {
     Furniture,
     DistributionCenters,
     ThroughTableCart,
-    Cart
-  }
+    Cart,
+    Biography,
+  },
 };
