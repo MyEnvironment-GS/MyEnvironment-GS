@@ -8,6 +8,7 @@ import {
   Paper,
   Grid,
 } from "@material-ui/core";
+import { sendOrderInformation } from "../store/effects/checkout";
 
 const useStyles = (theme) => ({
   root: {},
@@ -65,8 +66,11 @@ class CartShippingAndBilling extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefuault();
-    //incorporateThunkHere
+    console.log("here");
+    event.preventDefault();
+    const token = window.localStorage.getItem("token");
+    console.log(token);
+    this.props.sendOrder({ ...this.state }, token);
   }
 
   render() {
@@ -74,18 +78,18 @@ class CartShippingAndBilling extends Component {
 
     const { handleSubmit, handleChange } = this;
 
-    const email = this.props.information.email || "";
-    const phoneNumber = this.props.information.phoneNumber || "";
-    const billingName = this.props.information.billingName || "";
-    const billingStreet = this.props.information.billingStreet || "";
-    const billingCity = this.props.information.billingCity || "";
-    const billingState = this.props.information.billingState || "";
-    const billingZipCode = this.props.information.billingZipCode || 0;
-    const shippingName = this.props.information.shippingName || "";
-    const shippingStreet = this.props.information.shippingStreet || "";
-    const shippingCity = this.props.information.shippingCity || "";
-    const shippingState = this.props.information.shippingState || "";
-    const shippingZipCode = this.props.information.shippingZipCode || 0;
+    const email = this.state.email;
+    const phoneNumber = this.state.phoneNumber;
+    const billingName = this.state.billingName;
+    const billingStreet = this.state.billingStreet;
+    const billingCity = this.state.billingCity;
+    const billingState = this.state.billingState;
+    const billingZipCode = this.state.billingZipCode;
+    const shippingName = this.state.shippingName;
+    const shippingStreet = this.state.shippingStreet;
+    const shippingCity = this.state.shippingCity;
+    const shippingState = this.state.shippingState;
+    const shippingZipCode = this.state.shippingZipCode;
 
     console.log(this);
 
@@ -97,171 +101,174 @@ class CartShippingAndBilling extends Component {
         <Typography gutterBottom variant="h4">
           billing information
         </Typography>
-        <Grid container spacing={2} direction="column">
-          <TextField
-            className={classes.checkoutInputField}
-            id="creditCard"
-            label="Credit Card Number"
-            name="creditCard"
-            // value={}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="expirationDate"
-            label="Expiration Date"
-            name="expirationDate"
-            // value={}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="CCV"
-            label="CCV"
-            name="CCV"
-            // value={}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="billingName"
-            label="Name on Card"
-            name="billingName"
-            value={billingName}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="email"
-            label="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="phoneNumber"
-            label="Phone Number"
-            name="phoneNumber"
-            value={phoneNumber}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="billingStreet"
-            label="Street Address"
-            name="billingStreet"
-            value={billingStreet}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="billingCity"
-            label="City"
-            name="billingCity"
-            value={billingCity}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="billingState"
-            label="State"
-            name="billingState"
-            value={billingState}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="billingZipCode"
-            label="ZipCode"
-            name="billingZipCode"
-            value={billingZipCode}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-        </Grid>
-        <Typography gutterBottom variant="h4">
-          shipping information
-        </Typography>
+        <form id="checkoutForm" onSubmit={handleSubmit}>
+          <Grid container spacing={2} direction="column">
+            <TextField
+              className={classes.checkoutInputField}
+              id="creditCard"
+              label="Credit Card Number"
+              name="creditCard"
+              // value={}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="expirationDate"
+              label="Expiration Date"
+              name="expirationDate"
+              // value={}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="CCV"
+              label="CCV"
+              name="CCV"
+              // value={}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="billingName"
+              label="Name on Card"
+              name="billingName"
+              value={billingName}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="email"
+              label="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="phoneNumber"
+              label="Phone Number"
+              name="phoneNumber"
+              value={phoneNumber}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="billingStreet"
+              label="Street Address"
+              name="billingStreet"
+              value={billingStreet}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="billingCity"
+              label="City"
+              name="billingCity"
+              value={billingCity}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="billingState"
+              label="State"
+              name="billingState"
+              value={billingState}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="billingZipCode"
+              label="ZipCode"
+              name="billingZipCode"
+              value={billingZipCode}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+          </Grid>
+          <Typography gutterBottom variant="h4">
+            shipping information
+          </Typography>
 
-        <Grid container spacing={2} direction="column">
-          <TextField
-            className={classes.checkoutInputField}
-            id="shippingName"
-            label="Name"
-            name="shippingName"
-            value={shippingName}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="shippingStreet"
-            label="Street Address"
-            name="shippingStreet"
-            value={shippingStreet}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="shippingCity"
-            label="City"
-            name="shippingCity"
-            value={shippingCity}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="shippingState"
-            label="State"
-            name="shippingState"
-            value={shippingState}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <TextField
-            className={classes.checkoutInputField}
-            id="shippingZipCode"
-            label="ZipCode"
-            name="shippingZipCode"
-            value={shippingZipCode}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.checkoutInputField}
-          >
-            Continue to Checkout
-          </Button>
-        </Grid>
+          <Grid container spacing={2} direction="column">
+            <TextField
+              className={classes.checkoutInputField}
+              id="shippingName"
+              label="Name"
+              name="shippingName"
+              value={shippingName}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="shippingStreet"
+              label="Street Address"
+              name="shippingStreet"
+              value={shippingStreet}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="shippingCity"
+              label="City"
+              name="shippingCity"
+              value={shippingCity}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="shippingState"
+              label="State"
+              name="shippingState"
+              value={shippingState}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <TextField
+              className={classes.checkoutInputField}
+              id="shippingZipCode"
+              label="ZipCode"
+              name="shippingZipCode"
+              value={shippingZipCode}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              variant="outlined"
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.checkoutInputField}
+            >
+              Continue to Checkout
+            </Button>
+          </Grid>
+        </form>
       </Paper>
     );
   }
@@ -271,6 +278,13 @@ const mapState = (state) => ({
   information: state.auth,
 });
 
+const mapDispatch = (dispatch, { history }) => {
+  return {
+    sendOrder: (information, token) =>
+      dispatch(sendOrderInformation(information, token, history)),
+  };
+};
+
 const CartsShippingAndBillingUI = withStyles(useStyles)(CartShippingAndBilling);
 
-export default connect(mapState, null)(CartsShippingAndBillingUI);
+export default connect(mapState, mapDispatch)(CartsShippingAndBillingUI);
