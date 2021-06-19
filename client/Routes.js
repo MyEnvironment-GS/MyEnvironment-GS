@@ -9,6 +9,7 @@ import AllProducts from './components/AllProducts';
 import SingleProduct from './components/SingleProduct';
 import Cart from './components/Cart';
 import About from './components/About'
+import CartsShippingAndBilling from './components/CartShippingAndBilling'
 
 /**
  * COMPONENT
@@ -27,6 +28,7 @@ class Routes extends Component {
           <Switch>
             <Route path="/home" component={Home} />
             <Route path="/cart" component={Cart} />
+            <Route path="/checkout" component={CartsShippingAndBilling} />
             <Route path="/furniture/:id" component={SingleProduct} />
             <Route path="/furniture" component={AllProducts} />
             <Route path="/about" component={About} />
@@ -40,6 +42,7 @@ class Routes extends Component {
             <Route path="/furniture/:id" component={SingleProduct} />
             <Route path="/furniture" component={AllProducts} />
             <Route path="/cart" component={Cart} />
+            <Route path="/checkout" component={CartsShippingAndBilling} />
             <Route path="/about" component={About} />
           </Switch>
         )}

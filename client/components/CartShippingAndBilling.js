@@ -1,0 +1,276 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  TextField,
+  Button,
+  withStyles,
+  Typography,
+  Paper,
+  Grid,
+} from "@material-ui/core";
+
+const useStyles = (theme) => ({
+  root: {},
+  checkoutInputField: {
+    // padding: theme.spacing(2),
+    margin: "auto",
+    marginTop: 10,
+  },
+});
+
+class CartShippingAndBilling extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: "",
+      phoneNumber: "",
+      billingName: "",
+      billingStreet: "",
+      billingCity: "",
+      billingState: "",
+      billingZipCode: 0,
+      shippingName: "",
+      shippingStreet: "",
+      shippingCity: "",
+      shippingState: "",
+      shippingZipCode: 0,
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.setState({
+        email: this.props.information.email || "",
+        phoneNumber: this.props.information.phoneNumber || "",
+        billingName: this.props.information.billingName || "",
+        billingStreet: this.props.information.billingStreet || "",
+        billingCity: this.props.information.billingCity || "",
+        billingState: this.props.information.billingState || "",
+        billingZipCode: this.props.information.billingZipCode || 0,
+        shippingName: this.props.information.shippingName || "",
+        shippingStreet: this.props.information.shippingStreet || "",
+        shippingCity: this.props.information.shippingCity || "",
+        shippingState: this.props.information.shippingState || "",
+        shippingZipCode: this.props.information.shippingZipCode || 0,
+      });
+    }
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  handleSubmit(event) {
+    event.preventDefuault();
+    //incorporateThunkHere
+  }
+
+  render() {
+    const { classes } = this.props;
+
+    const { handleSubmit, handleChange } = this;
+
+    const email = this.props.information.email || "";
+    const phoneNumber = this.props.information.phoneNumber || "";
+    const billingName = this.props.information.billingName || "";
+    const billingStreet = this.props.information.billingStreet || "";
+    const billingCity = this.props.information.billingCity || "";
+    const billingState = this.props.information.billingState || "";
+    const billingZipCode = this.props.information.billingZipCode || 0;
+    const shippingName = this.props.information.shippingName || "";
+    const shippingStreet = this.props.information.shippingStreet || "";
+    const shippingCity = this.props.information.shippingCity || "";
+    const shippingState = this.props.information.shippingState || "";
+    const shippingZipCode = this.props.information.shippingZipCode || 0;
+
+    console.log(this);
+
+    return (
+      <Paper>
+        <Typography gutterBottom variant="h3">
+          checkout
+        </Typography>
+        <Typography gutterBottom variant="h4">
+          billing information
+        </Typography>
+        <Grid container spacing={2} direction="column">
+          <TextField
+            className={classes.checkoutInputField}
+            id="creditCard"
+            label="Credit Card Number"
+            name="creditCard"
+            // value={}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="expirationDate"
+            label="Expiration Date"
+            name="expirationDate"
+            // value={}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="CCV"
+            label="CCV"
+            name="CCV"
+            // value={}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="billingName"
+            label="Name on Card"
+            name="billingName"
+            value={billingName}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="email"
+            label="email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="phoneNumber"
+            label="Phone Number"
+            name="phoneNumber"
+            value={phoneNumber}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="billingStreet"
+            label="Street Address"
+            name="billingStreet"
+            value={billingStreet}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="billingCity"
+            label="City"
+            name="billingCity"
+            value={billingCity}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="billingState"
+            label="State"
+            name="billingState"
+            value={billingState}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="billingZipCode"
+            label="ZipCode"
+            name="billingZipCode"
+            value={billingZipCode}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+        </Grid>
+        <Typography gutterBottom variant="h4">
+          shipping information
+        </Typography>
+
+        <Grid container spacing={2} direction="column">
+          <TextField
+            className={classes.checkoutInputField}
+            id="shippingName"
+            label="Name"
+            name="shippingName"
+            value={shippingName}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="shippingStreet"
+            label="Street Address"
+            name="shippingStreet"
+            value={shippingStreet}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="shippingCity"
+            label="City"
+            name="shippingCity"
+            value={shippingCity}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="shippingState"
+            label="State"
+            name="shippingState"
+            value={shippingState}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <TextField
+            className={classes.checkoutInputField}
+            id="shippingZipCode"
+            label="ZipCode"
+            name="shippingZipCode"
+            value={shippingZipCode}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.checkoutInputField}
+          >
+            Continue to Checkout
+          </Button>
+        </Grid>
+      </Paper>
+    );
+  }
+}
+
+const mapState = (state) => ({
+  information: state.auth,
+});
+
+const CartsShippingAndBillingUI = withStyles(useStyles)(CartShippingAndBilling);
+
+export default connect(mapState, null)(CartsShippingAndBillingUI);
