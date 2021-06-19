@@ -10,7 +10,6 @@ import User from './components/Users'
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <User />
       <App />
     </Router>
   </Provider>,
