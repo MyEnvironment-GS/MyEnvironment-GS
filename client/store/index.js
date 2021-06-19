@@ -12,7 +12,7 @@ import biographiesReducer from './reducers/biographiesReducer';
 
 const reducer = combineReducers({
   auth,
-  usersReducer,
+  users: usersReducer,
   distributionsReducer,
   manufacturersReducer,
   furnituresRedux,
