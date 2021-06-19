@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const axios = require('axios');
 const Cart = require('./cart');
 const ThroughTableCart = require('./throughTableCart');
+const Furniture = require('./furniture');
 const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
@@ -129,7 +130,12 @@ User.findByToken = async function (token) {
   try {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = User.findByPk(id, {
-      include: Cart,
+      include: {
+       model: Cart,
+       include: {
+         model: Furniture
+       }
+      }
     });
     if (!user) {
       throw 'nooo';
@@ -158,4 +164,11 @@ User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));
 User.afterCreate(async function (user) {
   const userCart = await Cart.create({});
   await userCart.setUser(user);
+
+  const dummyFurniture = await Furniture.findByPk(1);
+  const dummyFurniture2 = await Furniture.findByPk(2);
+
+  // console.log(dummyFurniture.dataValues.price)
+  await dummyFurniture.addCart(userCart)
+  await dummyFurniture2.addCart(userCart)
 });
