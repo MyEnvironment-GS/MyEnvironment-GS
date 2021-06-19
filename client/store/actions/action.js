@@ -1,6 +1,7 @@
-import GET_USERS from '../constants/constants';
-import GET_DISTRIBUTIONS from '../constants/constants';
-import GET_MANUFACTURERSINFO from '../constants/constants';
+import { GET_USERS } from '../constants/constants';
+import { GET_DISTRIBUTIONS } from '../constants/constants';
+import { GET_MANUFACTURERSINFO } from '../constants/constants';
+
 import { GET_FURNITURES } from '../constants/constants';
 import { GET_FURNITURE } from '../constants/constants';
 import GET_BIOGRAPHIES from '../constants/constants';

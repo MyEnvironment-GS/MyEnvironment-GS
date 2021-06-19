@@ -13,7 +13,7 @@ import singleUserReducer from './reducers/singleUserReducer';
 
 const reducer = combineReducers({
   auth,
-  usersReducer,
+  users: usersReducer,
   distributionsReducer,
   manufacturersReducer,
   furnituresRedux,
