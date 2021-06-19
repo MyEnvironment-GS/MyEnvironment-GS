@@ -27,7 +27,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//PUT one User
+//PUT one User /api/users/:token
 router.put("/:token", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.params.token);
@@ -36,3 +36,11 @@ router.put("/:token", async (req, res, next) => {
     next(error);
   }
 });
+
+router.get("/:token", async (req, res, next) => {
+  try {
+    res.send(await User.findByToken(req.params.token))
+  } catch (error) {
+    next(error)
+  }
+})

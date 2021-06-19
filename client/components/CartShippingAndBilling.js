@@ -8,7 +8,7 @@ import {
   Paper,
   Grid,
 } from "@material-ui/core";
-import { sendOrderInformation } from "../store/effects/checkout";
+import { sendOrderInformation, fetchInfo } from "../store/effects/checkout";
 
 const useStyles = (theme) => ({
   root: {},
@@ -59,6 +59,11 @@ class CartShippingAndBilling extends Component {
     }
   }
 
+  componentDidMount() {
+    const token = window.localStorage.getItem("token")
+    this.props.fetchInfo(token)
+  }
+
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -66,15 +71,15 @@ class CartShippingAndBilling extends Component {
   }
 
   handleSubmit(event) {
-    console.log("here");
     event.preventDefault();
     const token = window.localStorage.getItem("token");
-    console.log(token);
     this.props.sendOrder({ ...this.state }, token);
   }
 
   render() {
     const { classes } = this.props;
+
+    console.log(this);
 
     const { handleSubmit, handleChange } = this;
 
@@ -90,8 +95,6 @@ class CartShippingAndBilling extends Component {
     const shippingCity = this.state.shippingCity;
     const shippingState = this.state.shippingState;
     const shippingZipCode = this.state.shippingZipCode;
-
-    console.log(this);
 
     return (
       <Paper>
@@ -282,6 +285,7 @@ const mapDispatch = (dispatch, { history }) => {
   return {
     sendOrder: (information, token) =>
       dispatch(sendOrderInformation(information, token, history)),
+    fetchInfo: (token) => dispatch(fetchInfo(token)),
   };
 };
 

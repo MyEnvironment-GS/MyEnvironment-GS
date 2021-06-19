@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { loadCheckout } from "../store/effects/checkout";
 import {
   Grid,
   Paper,
@@ -49,6 +50,7 @@ class Cart extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -74,15 +76,22 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
-    const activeCart = this.props.carts.filter(
-      (cart) => cart.fulfilled === false
-    )[0];
-    const cartItems = activeCart.furniture;
-    this.setState({
-      carts: this.props.carts,
-      activeCart: activeCart,
-      cartItems: cartItems,
-    });
+    if (this.props.carts) {
+      const activeCart = this.props.carts.filter(
+        (cart) => cart.fulfilled === false
+      )[0];
+      const cartItems = activeCart.furniture;
+      this.setState({
+        carts: this.props.carts,
+        activeCart: activeCart,
+        cartItems: cartItems,
+      });
+    }
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    // this.props.startCheckout();
   }
 
   render() {
@@ -95,7 +104,7 @@ class Cart extends React.Component {
     };
     let summaryTotal = cartItems.reduce(summaryReducer, 0);
 
-    const { handleChange } = this;
+    const { handleChange, handleSubmit } = this;
     const { classes } = this.props;
 
     return (
@@ -175,15 +184,18 @@ class Cart extends React.Component {
             total: ${((summaryTotal * 1.4) / 100).toFixed(2)}
           </Typography>
         </Paper>
-        <Grid container spacing={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.cartButton}
-          >
-            Continue to Checkout
-          </Button>
-        </Grid>
+        <form id="toShippingandBilling" onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              className={classes.cartButton}
+            >
+              Continue to Checkout
+            </Button>
+          </Grid>
+        </form>
       </div>
     );
   }
@@ -193,9 +205,11 @@ const mapState = (state) => ({
   carts: state.auth.carts,
 });
 
-const mapDispatch = (dispatch) => ({
-  // loadCart: () => dispatch(fetchCart()),
-});
+const mapDispatch = (dispatch, { history }) => {
+  return {
+    // startCheckout: () => dispatch(loadCheckout(history)),
+  };
+};
 
 const CartWithState = connect(mapState, mapDispatch)(Cart);
 export default withStyles(useStyles)(CartWithState);
