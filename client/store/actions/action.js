@@ -54,6 +54,6 @@ export const getBiographies = (data) => {
 export const setInfo = (data) => {
   return {
     type: GET_USER,
-    data
-  }
-}
+    data,
+  };
+};

@@ -45,7 +45,7 @@ export default function SimpleMenuLoggedIn() {
           <Link to="/about">
             <MenuItem onClick={handleClose}>ABOUT US</MenuItem>
           </Link>
-          <Link>
+          <Link to="/login">
             <MenuItem onClick={handleClose}>SIGN OUT</MenuItem>
           </Link>
           <Link to="/admin">
