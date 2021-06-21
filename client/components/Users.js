@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { fetchAllUsers } from '../store/effects/users'
-import { usersReducer } from '../store/reducers/userReducer'
 
 export class Users extends Component {
   componentDidMount() {
@@ -9,11 +8,11 @@ export class Users extends Component {
   }
 
   render() {
-    const user = this.props.user || []
+    const user = this.props.users || []
     return (
       <div>
         {user.map((user) => (
-          <ul>
+          <ul key={user.id}>
             <li>{user.username}</li>
           </ul>
         ))}
@@ -23,7 +22,7 @@ export class Users extends Component {
 }
 
 const mapStateToProps = (state) => ({
-   users: state.usersReducer.users
+   users: state.users
 })
 
 const mapDispatchToProps = (dispatch) => {
