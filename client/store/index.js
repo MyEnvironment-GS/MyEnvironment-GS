@@ -9,15 +9,17 @@ import manufacturersReducer from './reducers/manufacturerReducer';
 import furnituresRedux from './reducers/furnituresReducer';
 import furnitureReducer from './reducers/furnitureReducer';
 import biographiesReducer from './reducers/biographiesReducer';
+import singleUserReducer from './reducers/singleUserReducer';
 
 const reducer = combineReducers({
   auth,
-  usersReducer,
+  users: usersReducer,
   distributionsReducer,
   manufacturersReducer,
   furnituresRedux,
   furnitureReducer,
   biographiesReducer,
+  singleUserReducer
 });
 
 const middleware = composeWithDevTools(
