@@ -8,25 +8,38 @@ export class AllBiographies extends Component {
     super();
   }
   componentDidMount() {
-    this.props.fetchBiographies();
+    this.props.loadBiographies();
     console.log(this.props);
   }
   render() {
-    const { biographies } = this.props;
+    const biographies = this.props.biographies || [];
     console.log('here are biographies', biographies);
-    return <div>Hello</div>;
+    return (
+      <div>
+        <h2>about</h2>
+        <div id="container">
+          {biographies.map((biography) => (
+            <div id="all-biogrphies-container" key={biography.id}>
+              <img src={biography.imageUrl} width="200" />
+              <h3>{biography.name}</h3>
+              <div>{biography.description}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 }
 
 const mapState = (state) => {
   return {
-    biographies: state,
+    biographies: state.biographiesReducer,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    fetchBiographies: () => {
+    loadBiographies: () => {
       dispatch(fetchAllBiographies());
     },
   };

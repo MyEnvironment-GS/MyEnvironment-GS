@@ -5,26 +5,26 @@ import { fetchFurniture } from '../store/effects/furniture';
 import { addToCart } from '../store/effects/furniture';
 
 export class SingleProduct extends React.Component {
-  constructor () {
+  constructor() {
     super();
   }
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetch(this.props.match.params.id);
     console.log(this.props, 'props');
   }
 
-  addToCart = event => {
+  addToCart = (event) => {
     // isLoggedIn ? //do this
     // :
     // // do this
   };
 
-  render () {
+  render() {
     const furniture = this.props.furniture;
     return (
       <div>
         <h2>{`${furniture.name}`}</h2>
-        <img src={furniture.imageUrl} alt='Image not found' />
+        <img src={furniture.imageUrl} alt="Image not found" />
         <p>{`${furniture.description}`}</p>
         <h3>{`Price: ${furniture.price / 100}`}</h3>
         <h3>{`Manufacturer: ${furniture.manufacturer}`}</h3>
@@ -36,20 +36,20 @@ export class SingleProduct extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapState = (state) => {
   return {
-    furniture: state.furnitureReducer
+    furniture: state.furnitureReducer,
   };
 };
 
-const mapDispatch = dispatch => {
+const mapDispatch = (dispatch) => {
   return {
-    fetch: id => {
+    fetch: (id) => {
       dispatch(fetchFurniture(id));
     },
     addItemToCart: (id, cartId) => {
       dispatch(addToCart(id, cartId));
-    }
+    },
   };
 };
 
