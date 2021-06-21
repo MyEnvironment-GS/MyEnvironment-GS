@@ -1,13 +1,9 @@
-import { GET_USER } from "../constants/constants";
-
-// USER REDUCER
-
+import { GET_SINGLE_USER } from "../constants/constants";
 
 export default (state = {}, action) => {
+  console.log(action.data)
   switch (action.type) {
-    case GET_USER:
-      return  action.data
-      default:
-      return state
-  }
-}
+    case GET_SINGLE_USER:
+      return action.data
+    default:
+      return state;
