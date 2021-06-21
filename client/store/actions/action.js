@@ -4,12 +4,8 @@ import { GET_MANUFACTURERSINFO } from '../constants/constants';
 
 import { GET_FURNITURES } from '../constants/constants';
 import { GET_FURNITURE } from '../constants/constants';
-<<<<<<< HEAD
-import { GET_BIOGRAPHIES } from '../constants/constants';
-=======
 import GET_BIOGRAPHIES from '../constants/constants';
 import { GET_USER } from '../constants/constants';
->>>>>>> main
 
 // ACTION CREATORS
 
@@ -58,6 +54,6 @@ export const getBiographies = (data) => {
 export const setInfo = (data) => {
   return {
     type: GET_USER,
-    data
-  }
-}
+    data,
+  };
+};
