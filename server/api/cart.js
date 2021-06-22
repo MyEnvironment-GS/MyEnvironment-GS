@@ -27,7 +27,7 @@ router.get("/:id", async (req, res, next) => {
 
 const {isUser} = require("./authentication")
 
-// router.use(isUser)
+router.use(isUser)
 
 //POST /api/cart
 router.post("/", async (req, res, next) => {
@@ -53,8 +53,8 @@ router.post("/", async (req, res, next) => {
 
 router.put("/", async (req, res, next) => {
   try {
-    const cartId = req.body.id
-    const furniture = req.body.furniture
+    const cartId = req.body.activeCart.id
+    const furniture = req.body.activeCart.furniture
 
     furniture.forEach(async (item) => {
       const itemId = item.id
@@ -75,3 +75,4 @@ router.put("/", async (req, res, next) => {
     next(error)
   }
 })
+

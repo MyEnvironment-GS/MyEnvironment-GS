@@ -103,7 +103,8 @@ class Cart extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.startCheckout(this.state.activeCart);
+    const token = window.localStorage.getItem("token")
+    this.props.startCheckout(this.state.activeCart, token);
   }
 
   render() {
@@ -221,7 +222,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch, { history }) => {
   return {
-    startCheckout: (activeCart) => dispatch(loadCheckout(activeCart, history)),
+    startCheckout: (activeCart, token) => dispatch(loadCheckout(activeCart, history, token)),
   };
 };
 

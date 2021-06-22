@@ -13,9 +13,9 @@ export const sendOrderInformation = (information, token, history) => {
   }
 }
 
-export const loadCheckout = (activeCart, history) => {
+export const loadCheckout = (activeCart, history, token) => {
   return async (dispatch) => {
-    const updatedCart = await axios.put(`api/cart`, activeCart)
+    const updatedCart = await axios.put(`api/cart`, {activeCart, token})
 
     history.push('/checkout')
   }
