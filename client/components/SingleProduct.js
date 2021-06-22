@@ -15,15 +15,17 @@ export class SingleProduct extends React.Component {
   }
 
   addToCart = async event => {
+    const token = window.localStorage.getItem('token');
     // console.log(event.target.name, 'event');
     // isLoggedIn ? //do this
     // :
     // // do this
     // axios.post(`/${Number(event.target.name)}`);
-    console.log(await axios.get('/furniture/usercart'), 'get');
-    await axios.post('/cart', {
-      furnitureId: Number(event.target.name),
-      cartId: this.state.auth.carts
+    // console.log(await axios.get('/furniture/usercart'), 'get');
+    await axios.post('/furniture/1/add', {
+      headers: {
+        authorization: token
+      }
     });
   };
 
