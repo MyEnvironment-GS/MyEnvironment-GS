@@ -4,7 +4,7 @@ import { GET_MANUFACTURERSINFO } from '../constants/constants';
 
 import { GET_FURNITURES } from '../constants/constants';
 import { GET_FURNITURE } from '../constants/constants';
-import GET_BIOGRAPHIES from '../constants/constants';
+import { GET_BIOGRAPHIES } from '../constants/constants';
 import { GET_USER } from '../constants/constants';
 
 // ACTION CREATORS
