@@ -7,3 +7,5 @@ export default (state = {}, action) => {
       return action.data
     default:
       return state;
+  }
+}
