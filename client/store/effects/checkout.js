@@ -14,14 +14,16 @@ export const sendOrderInformation = (information, token, history) => {
 }
 
 export const loadCheckout = (history) => {
-  console.log('here')
-  history.push('/checkout')
+  return async (dispatch) => {
+    history.push('/checkout')
+  }
 }
 
 
 export const fetchInfo = (token) => {
   return async (dispatch) => {
     const res = await axios.get(`api/users/${token}`)
+    console.log(res)
     const user = res.data
     dispatch(setInfo(user))
   }

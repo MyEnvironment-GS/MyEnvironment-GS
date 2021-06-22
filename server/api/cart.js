@@ -23,8 +23,14 @@ router.get("/:id", async (req, res, next) => {
 //   }
 // });
 
+
+const {isUser} = require("./authentication")
+
+router.use(isUser)
+
 //POST /api/cart
 router.post("/", async (req, res, next) => {
+  console.log('here')
   try {
     const newCart = await Cart.create({});
     const user = await User.findByPk(req.body.data.id);
