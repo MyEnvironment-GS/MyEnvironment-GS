@@ -13,8 +13,10 @@ export const sendOrderInformation = (information, token, history) => {
   }
 }
 
-export const loadCheckout = (history) => {
+export const loadCheckout = (activeCart, history) => {
   return async (dispatch) => {
+    const updatedCart = await axios.put(`api/cart`, activeCart)
+
     history.push('/checkout')
   }
 }

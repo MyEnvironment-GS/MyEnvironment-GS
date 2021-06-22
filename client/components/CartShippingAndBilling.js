@@ -79,8 +79,6 @@ class CartShippingAndBilling extends Component {
   render() {
     const { classes } = this.props;
 
-    console.log(this);
-
     const { handleSubmit, handleChange } = this;
 
     const email = this.state.email;

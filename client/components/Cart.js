@@ -54,9 +54,21 @@ class Cart extends React.Component {
   }
 
   handleChange(event) {
-    this.props.carts[0].furniture[
-      Number(event.target.id) - 1
-    ].cartsThroughTable.quantity = event.target.value;
+    function getFurnitureIndex(array, value) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].id === Number(value)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+    const eventTargetIndex = getFurnitureIndex(
+      this.props.carts[0].furniture,
+      event.target.id
+    );
+
+    this.props.carts[0].furniture[eventTargetIndex].cartsThroughTable.quantity =
+      event.target.value;
     this.setState({});
   }
 
@@ -91,13 +103,15 @@ class Cart extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.startCheckout();
+    this.props.startCheckout(this.state.activeCart);
   }
 
   render() {
     const carts = this.state.carts || [];
     const activeCart = this.state.activeCart || [];
     const cartItems = this.state.cartItems || [];
+
+    console.log(this)
 
     const summaryReducer = (accum, item) => {
       return accum + item.price * item.cartsThroughTable.quantity;
@@ -207,7 +221,7 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch, { history }) => {
   return {
-    startCheckout: () => dispatch(loadCheckout(history)),
+    startCheckout: (activeCart) => dispatch(loadCheckout(activeCart, history)),
   };
 };
 

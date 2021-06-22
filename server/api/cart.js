@@ -1,6 +1,7 @@
 const {
   models: { Cart, User, ThroughTableCart },
 } = require("../db");
+const Furniture = require("../db/models/furniture");
 
 const router = require("express").Router();
 
@@ -26,7 +27,7 @@ router.get("/:id", async (req, res, next) => {
 
 const {isUser} = require("./authentication")
 
-router.use(isUser)
+// router.use(isUser)
 
 //POST /api/cart
 router.post("/", async (req, res, next) => {
@@ -49,3 +50,28 @@ router.post("/", async (req, res, next) => {
     next(error);
   }
 });
+
+router.put("/", async (req, res, next) => {
+  try {
+    const cartId = req.body.id
+    const furniture = req.body.furniture
+
+    furniture.forEach(async (item) => {
+      const itemId = item.id
+      const furniture = await Furniture.findByPk(itemId)
+      const instance = await ThroughTableCart.findOne({
+        where: {
+          cartId: cartId,
+          furnitureId: itemId
+        }
+      })
+       await instance.update({
+         quantity: Number(item.cartsThroughTable.quantity),
+         price: furniture.price
+    })
+  })
+  res.sendStatus(201)
+  } catch (error) {
+    next(error)
+  }
+})
