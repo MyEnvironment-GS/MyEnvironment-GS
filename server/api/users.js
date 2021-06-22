@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const {
-  models: { User, Cart }
+  models: { User, Cart },
 } = require('../db');
-module.exports = router;
 
 //GET all USERS /api/users/
 router.get('/', async (req, res, next) => {
@@ -17,9 +16,9 @@ router.get('/', async (req, res, next) => {
         'firstName',
         'lastName',
         'phoneNumber',
-        'email'
+        'email',
       ],
-      include: Cart
+      include: Cart,
     });
     res.json(users);
   } catch (err) {
@@ -55,3 +54,14 @@ router.get('/:token', async (req, res, next) => {
     next(error);
   }
 });
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newUser = await User.create(req.body);
+    res.send(newUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;

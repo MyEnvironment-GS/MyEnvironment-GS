@@ -1,5 +1,5 @@
 const {
-  models: { Furniture, User }
+  models: { Furniture, User },
 } = require('../db');
 const axios = require('axios');
 const router = require('express').Router();
@@ -35,6 +35,16 @@ router.get('/:id', async (req, res, next) => {
   try {
     const furniture = await Furniture.findByPk(req.params.id);
     res.send(furniture);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/furniture
+router.post('/', async (req, res, next) => {
+  try {
+    const newProduct = await Furniture.create(req.body);
+    res.send(newProduct);
   } catch (error) {
     next(error);
   }
