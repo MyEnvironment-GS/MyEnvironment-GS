@@ -1,17 +1,22 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { fetchSingleUser } from '../store/effects/users'
+import { fetchSingleUser } from '../store/effects/singleUser'
 
-export  class SingleUser extends Component {
+export class SingleUser extends Component {
+  constructor() {
+    super()
+  }
   componentDidMount() {
     try {
-      const userId = this.props.match.params.userId;
+      const userId = this.props.match.params.id;
+      console.log(userId)
       this.props.loadSingleUser(userId)
     } catch (error) {
       console.log(error);
     }
   }
   render() {
+    console.log(this.props)
     const singleUser = this.props.singleUser
     const firstName = singleUser.firstName
     console.log(singleUser)

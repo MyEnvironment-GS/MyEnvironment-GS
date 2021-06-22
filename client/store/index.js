@@ -19,7 +19,7 @@ const reducer = combineReducers({
   furnituresRedux,
   furnitureReducer,
   biographiesReducer,
-  singleUserReducer
+  singleUser: singleUserReducer
 });
 
 const middleware = composeWithDevTools(
