@@ -55,10 +55,10 @@ router.put('/', async (req, res, next) => {
           furnitureId: itemId
         }
       });
-      await instance.update({
+      console.log(await instance.update({
         quantity: Number(item.cartsThroughTable.quantity),
         price: itemDetails.price
-      });
+      }));
     });
     res.sendStatus(201);
   } catch (error) {

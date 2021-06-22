@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { async } from 'regenerator-runtime'
 import { setInfo } from '../actions/action'
 
 //Thunk
@@ -16,7 +15,6 @@ export const sendOrderInformation = (information, token, history) => {
 export const loadCheckout = (activeCart, history, token) => {
   return async (dispatch) => {
     const updatedCart = await axios.put(`api/cart`, {activeCart, token})
-
     history.push('/checkout')
   }
 }
@@ -25,7 +23,6 @@ export const loadCheckout = (activeCart, history, token) => {
 export const fetchInfo = (token) => {
   return async (dispatch) => {
     const res = await axios.get(`api/users/${token}`)
-    console.log(res)
     const user = res.data
     dispatch(setInfo(user))
   }
