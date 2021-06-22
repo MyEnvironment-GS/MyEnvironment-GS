@@ -15,15 +15,6 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// router.put('/:id', async (req, res, next) => {
-//   try {
-//     const cart = await ThroughTableCart.findByPk(req.params.id);
-//     res.send(await cart.update(req.body, { fields: furnitureId }));
-//   } catch (error) {
-//     throw error;
-//   }
-// });
-
 const { isUser } = require('./authentication');
 
 router.use(isUser);

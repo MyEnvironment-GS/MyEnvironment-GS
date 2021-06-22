@@ -3,33 +3,27 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchFurniture } from '../store/effects/furniture';
 import axios from 'axios';
-// import { addToCart } from '../store/effects/furniture';
+import { add_Furniture_To_Cart } from '../store/effects/cart';
 
 export class SingleProduct extends React.Component {
   constructor () {
     super();
+
+    this.addToCart = this.addToCart.bind(this);
   }
   componentDidMount () {
     this.props.fetch(this.props.match.params.id);
     console.log(this.props, 'props');
   }
 
-  addToCart = async event => {
+  addToCart (event) {
     const token = window.localStorage.getItem('token');
-    // console.log(event.target.name, 'event');
-    // isLoggedIn ? //do this
-    // :
-    // // do this
-    // axios.post(`/${Number(event.target.name)}`);
-    // console.log(await axios.get('/furniture/usercart'), 'get');
-    await axios.post('/furniture/1/add', {
-      headers: {
-        authorization: token
-      }
-    });
-  };
+    console.log(token, 'token');
+    this.props.addItemToCart(this.props.match.params.id, token);
+  }
 
   render () {
+    console.log(this, 'THISSSSSS');
     const furniture = this.props.furniture;
     return (
       <div>
@@ -59,8 +53,8 @@ const mapDispatch = dispatch => {
     fetch: id => {
       dispatch(fetchFurniture(id));
     },
-    addItemToCart: (id, cartId) => {
-      dispatch(addToCart(id, cartId));
+    addItemToCart: (furnitureId, token) => {
+      dispatch(add_Furniture_To_Cart(furnitureId, token));
     }
   };
 };
