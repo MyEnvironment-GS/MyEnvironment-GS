@@ -58,7 +58,7 @@ router.put("/", async (req, res, next) => {
 
     furniture.forEach(async (item) => {
       const itemId = item.id
-      const furniture = await Furniture.findByPk(itemId)
+      const itemDetails = await Furniture.findByPk(itemId)
       const instance = await ThroughTableCart.findOne({
         where: {
           cartId: cartId,
@@ -67,7 +67,7 @@ router.put("/", async (req, res, next) => {
       })
        await instance.update({
          quantity: Number(item.cartsThroughTable.quantity),
-         price: furniture.price
+         price: itemDetails.price
     })
   })
   res.sendStatus(201)
@@ -76,3 +76,19 @@ router.put("/", async (req, res, next) => {
   }
 })
 
+router.delete('/', async (req, res, next) => {
+  try {
+    const furnitureId = req.body
+    const cartId = req.body.activeCart.id
+    const instance = await ThroughTableCart.findOne({
+      where: {
+        cartId: cartId,
+        furnitureId: furnitureId
+      }
+    })
+    await instance.destroy()
+    res.send(instance)
+  } catch (error) {
+    next(error)
+  }
+})

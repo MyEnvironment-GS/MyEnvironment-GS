@@ -103,8 +103,16 @@ class Cart extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const token = window.localStorage.getItem("token")
+    const token = window.localStorage.getItem("token");
     this.props.startCheckout(this.state.activeCart, token);
+  }
+
+  handleDelete(event) {
+    event.preventDefault();
+    const token = window.localStorage.getItem("token");
+    console.log(event.target)
+    console.log(Number(event.target.id) === 1);
+
   }
 
   render() {
@@ -112,14 +120,14 @@ class Cart extends React.Component {
     const activeCart = this.state.activeCart || [];
     const cartItems = this.state.cartItems || [];
 
-    console.log(this)
+    console.log(this);
 
     const summaryReducer = (accum, item) => {
       return accum + item.price * item.cartsThroughTable.quantity;
     };
     let summaryTotal = cartItems.reduce(summaryReducer, 0);
 
-    const { handleChange, handleSubmit } = this;
+    const { handleChange, handleSubmit, handleDelete } = this;
     const { classes } = this.props;
 
     return (
@@ -160,7 +168,6 @@ class Cart extends React.Component {
                       <Typography gutterBottom variant="subtitle2">
                         <TextField
                           className={classes.inputField}
-                          id={`${item.id}`}
                           type="number"
                           value={item.cartsThroughTable.quantity}
                           name="itemQuantity"
@@ -180,9 +187,16 @@ class Cart extends React.Component {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body2" style={{ cursor: "pointer" }}>
+                  <Button
+                    id={`${item.id}`}
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className={classes.cartButton}
+                    onClick={handleDelete}
+                  >
                     Remove
-                  </Typography>
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>
@@ -222,7 +236,8 @@ const mapState = (state) => ({
 
 const mapDispatch = (dispatch, { history }) => {
   return {
-    startCheckout: (activeCart, token) => dispatch(loadCheckout(activeCart, history, token)),
+    startCheckout: (activeCart, token) =>
+      dispatch(loadCheckout(activeCart, history, token)),
   };
 };
 
