@@ -61,7 +61,7 @@ class CartShippingAndBilling extends Component {
 
   componentDidMount() {
     const token = window.localStorage.getItem("token")
-    this.props.fetchInfo(token)
+    console.log(this.props.fetchInfo(token))
   }
 
   handleChange(event) {
@@ -78,8 +78,6 @@ class CartShippingAndBilling extends Component {
 
   render() {
     const { classes } = this.props;
-
-    console.log(this);
 
     const { handleSubmit, handleChange } = this;
 
@@ -278,7 +276,7 @@ class CartShippingAndBilling extends Component {
 }
 
 const mapState = (state) => ({
-  information: state.auth,
+  information: state.users,
 });
 
 const mapDispatch = (dispatch, { history }) => {
