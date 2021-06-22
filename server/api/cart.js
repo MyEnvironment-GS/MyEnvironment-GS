@@ -50,6 +50,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
+//Update cart
 router.put("/", async (req, res, next) => {
   try {
     const cartId = req.body.activeCart.id
