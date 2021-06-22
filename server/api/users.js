@@ -1,25 +1,25 @@
-const router = require("express").Router();
+const router = require('express').Router();
 const {
-  models: { User, Cart },
-} = require("../db");
+  models: { User, Cart }
+} = require('../db');
 module.exports = router;
 
 //GET all USERS /api/users/
-router.get("/", async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
       attributes: [
-        "id",
-        "username",
-        "firstName",
-        "lastName",
-        "phoneNumber",
-        "email",
+        'id',
+        'username',
+        'firstName',
+        'lastName',
+        'phoneNumber',
+        'email'
       ],
-      include: Cart,
+      include: Cart
     });
     res.json(users);
   } catch (err) {
@@ -27,18 +27,18 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get('/:id', async (req, res, next) => {
   try {
-    const { id } = req.params
-    const user = await User.findByPk(id)
-    res.send(user)
+    const { id } = req.params;
+    const user = await User.findByPk(id);
+    res.send(user);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 //PUT one User /api/users/:token
-router.put("/:token", async (req, res, next) => {
+router.put('/:token', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.params.token);
     res.send(await user.update(req.body.user));
@@ -47,11 +47,11 @@ router.put("/:token", async (req, res, next) => {
   }
 });
 
-router.get("/:token", async (req, res, next) => {
+router.get('/:token', async (req, res, next) => {
   try {
-    res.send(await User.findByToken(req.params.token))
+    console.log('users route');
+    res.send(await User.findByToken(req.params.token));
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
+});

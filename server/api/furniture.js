@@ -1,6 +1,7 @@
 const {
-  models: { Furniture },
+  models: { Furniture, User }
 } = require('../db');
+const axios = require('axios');
 const router = require('express').Router();
 
 //GET api/furniture
@@ -9,18 +10,33 @@ router.get('/', async (req, res, next) => {
     const furniture = await Furniture.findAll();
     res.send(furniture);
   } catch (error) {
-    throw error;
+    next(error);
+  }
+});
+
+router.post('/add/:id', async (req, res, next) => {
+  try {
+    console.log('hit routeeeeeeeee');
+    const token = req.body.token;
+    console.log(token, 'token in route');
+    const user = await axios.get(`/api/users/${token}`);
+    console.log(user);
+    const furniture = await Furniture.findByPk(furnitureId);
+    const cart = await user.getCart();
+    // console.log(cart);
+    res.sendStatus(201);
+    // const cart = await axios.get(`/api/cart/${}`)
+  } catch (error) {
+    next(error);
   }
 });
 
 router.get('/:id', async (req, res, next) => {
   try {
-    console.log(req.params);
     const furniture = await Furniture.findByPk(req.params.id);
-    console.log(furniture);
     res.send(furniture);
   } catch (error) {
-    throw error;
+    next(error);
   }
 });
 
