@@ -12,6 +12,7 @@ import SingleProduct from './components/SingleProduct';
 import Cart from './components/Cart';
 import About from './components/About';
 import CartsShippingAndBilling from './components/CartShippingAndBilling';
+import  SingleUser  from './components/SingleUser';
 
 /**
  * COMPONENT
@@ -28,7 +29,8 @@ class Routes extends Component {
       <div>
         {isLoggedIn ? (
           <Switch>
-            <Route path="/users" component={Users} />
+            <Route exact path="/users" component={Users} />
+            <Route  path="/users/:id" component={SingleUser} />
             <Route path="/home" component={Home} />
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={CartsShippingAndBilling} />
