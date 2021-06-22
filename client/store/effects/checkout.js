@@ -7,7 +7,7 @@ import { setInfo } from '../actions/action'
 export const sendOrderInformation = (information, token, history) => {
   return async (dispatch) => {
     const user = await axios.put(`api/users/${token}`, information)
-    await axios.post(`api/cart`, user)
+    await axios.post(`api/cart`, {user, token})
 
     history.push('/orderconfirmation')
   }

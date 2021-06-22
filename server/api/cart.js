@@ -31,11 +31,10 @@ router.use(isUser)
 
 //POST /api/cart
 router.post("/", async (req, res, next) => {
-  console.log('here')
   try {
     const newCart = await Cart.create({});
-    const user = await User.findByPk(req.body.data.id);
-    const userCarts = req.body.data.carts;
+    const user = await User.findByPk(req.body.user.data.id);
+    const userCarts = req.body.user.data.carts;
 
     const filteredArray = userCarts.filter((cart) => cart.fulfilled === false);
 

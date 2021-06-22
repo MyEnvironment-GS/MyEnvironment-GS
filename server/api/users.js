@@ -31,7 +31,7 @@ router.get("/", async (req, res, next) => {
 router.put("/:token", async (req, res, next) => {
   try {
     const user = await User.findByToken(req.params.token);
-    res.send(await user.update(req.body));
+    res.send(await user.update(req.body.user));
   } catch (error) {
     next(error);
   }
