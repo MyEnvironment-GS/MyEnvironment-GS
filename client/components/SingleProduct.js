@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { fetchFurniture } from '../store/effects/furniture';
 import axios from 'axios';
 import { add_Furniture_To_Cart } from '../store/effects/cart';
+import { me } from '../store/auth';
 
 export class SingleProduct extends React.Component {
   constructor () {
@@ -12,18 +13,15 @@ export class SingleProduct extends React.Component {
     this.addToCart = this.addToCart.bind(this);
   }
   componentDidMount () {
+    this.props.fetchUser();
     this.props.fetch(this.props.match.params.id);
-    console.log(this.props, 'props');
   }
 
   addToCart (event) {
-    const token = window.localStorage.getItem('token');
-    console.log(token, 'token');
-    this.props.addItemToCart(this.props.match.params.id, token);
+    this.props.addItemToCart(this.props.match.params.id, this.props.user);
   }
 
   render () {
-    console.log(this, 'THISSSSSS');
     const furniture = this.props.furniture;
     return (
       <div>
@@ -44,7 +42,9 @@ export class SingleProduct extends React.Component {
 
 const mapState = state => {
   return {
-    furniture: state.furnitureReducer
+    furniture: state.furnitureReducer,
+    isLoggedIn: !!state.auth.id,
+    user: state.auth
   };
 };
 
@@ -55,6 +55,9 @@ const mapDispatch = dispatch => {
     },
     addItemToCart: (furnitureId, token) => {
       dispatch(add_Furniture_To_Cart(furnitureId, token));
+    },
+    fetchUser: () => {
+      dispatch(me());
     }
   };
 };
