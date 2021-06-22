@@ -5,6 +5,8 @@ export const GET_FURNITURE = 'GET_FURNITURE';
 export const GET_BIOGRAPHIES = 'GET_BIOGRAPHIES';
 export const GET_USERS = 'GET_USERS';
 export const GET_SINGLE_USER = 'GET_SINGLE_USER';
+export const GET_USER = 'GET_USER';
+
 export default {
   GET_DISTRIBUTIONS,
   GET_MANUFACTURERSINFO,
@@ -12,5 +14,6 @@ export default {
   GET_FURNITURE,
   GET_BIOGRAPHIES,
   GET_USERS,
-  GET_SINGLE_USER
+  GET_SINGLE_USER,
+  GET_USER
 };
