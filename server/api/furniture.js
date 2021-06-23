@@ -47,7 +47,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 //POST /api/furniture
-router.post('/', isUser, ensureAdmin, async (req, res, next) => {
+router.post('/', [isUser, ensureAdmin], async (req, res, next) => {
   try {
     const newProduct = await Furniture.create(req.body);
     res.send(newProduct);
@@ -57,7 +57,7 @@ router.post('/', isUser, ensureAdmin, async (req, res, next) => {
 });
 
 //PUT /api/furniture
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', [isUser, ensureAdmin], async (req, res, next) => {
   try {
     const product = await Furniture.findByPk(req.params.id);
     res.send(await product.update(req.body));
@@ -67,9 +67,9 @@ router.put('/:id', async (req, res, next) => {
 });
 
 //Delete /api/furniture
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', [isUser, ensureAdmin], async (req, res, next) => {
   try {
-    const product = await Product.findByPk(req.params.id);
+    const product = await Furniture.findByPk(req.params.id);
     await product.destroy();
     res.send(product);
   } catch (error) {
