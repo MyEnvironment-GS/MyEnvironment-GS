@@ -143,6 +143,13 @@ class Cart extends React.Component {
     const { handleChange, handleSubmit } = this;
     const { classes } = this.props;
 
+    let errorLog = false
+
+    const errorFinder = (item) => item.throughTableCart.quantity <= 0
+    if(cartItems.findIndex(errorFinder) > -1) {
+      errorLog = true
+    }
+
     return (
       <div className={classes.cardRoot}>
         <Grid container className={classes.cartCard}>
@@ -186,6 +193,8 @@ class Cart extends React.Component {
                           value={item.throughTableCart.quantity}
                           name="itemQuantity"
                           onChange={handleChange}
+                          error={item.throughTableCart.quantity < 0}
+                          helperText={item.throughTableCart.quantity < 0 ? "value must be greater than 0" : ""}
                           InputLabelProps={{
                             shrink: true,
                           }}
@@ -237,6 +246,7 @@ class Cart extends React.Component {
               color="primary"
               type="submit"
               className={classes.cartButton}
+              disabled={errorLog}
             >
               Continue to Checkout
             </Button>
