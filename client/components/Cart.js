@@ -143,8 +143,6 @@ class Cart extends React.Component {
     const { handleChange, handleSubmit } = this;
     const { classes } = this.props;
 
-    console.log(this);
-
     return (
       <div className={classes.cardRoot}>
         <Grid container className={classes.cartCard}>
