@@ -37,9 +37,18 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.put('/:token', async (req, res, next) => {
+// router.put('/:token', async (req, res, next) => {
+//   try {
+//     const user = await User.findByToken(req.params.token);
+//     res.send(await user.update(req.body));
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+router.put('/', [isUser, ensureAdmin], async (req, res, next) => {
   try {
-    const user = await User.findByToken(req.params.token);
+    const user = await User.findByToken(req.headers.authorization);
     res.send(await user.update(req.body));
   } catch (error) {
     next(error);
@@ -70,6 +79,16 @@ router.put('/:id', [isUser, ensureAdmin], async (req, res, next) => {
   try {
     const userToUpdate = await User.findByPk(req.params.id);
     res.send(await userToUpdate.update(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:id', [isUser, ensureAdmin], async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    await user.destroy();
+    res.send(user);
   } catch (error) {
     next(error);
   }
