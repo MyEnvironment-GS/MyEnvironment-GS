@@ -18,7 +18,16 @@ export class SingleProduct extends React.Component {
   }
 
   addToCart (event) {
-    this.props.addItemToCart(this.props.match.params.id, this.props.user);
+    if (isLoggedIn) {
+      this.props.addItemToCart(this.props.match.params.id, this.props.user);
+    } else {
+      if (window.localStorage.getItem('localCart')) {
+        let localCart = window.localStorage.getItem('localCart');
+      } else {
+        let localCart = [];
+        window.localStorage.setItem;
+      }
+    }
   }
 
   render () {
