@@ -11,14 +11,6 @@ function ensureAdmin(req, res, next) {
 
 // middleware function to check if the request is a user
 const isUser = async (req, res, next) => {
-<<<<<<< HEAD
-  const user = await User.findByToken(req.body.token)
-  // console.log(user)
-  if(user.id) {
-    next()
-  } else {
-    res.sendStatus(403)
-=======
   // console.log(req.body)
   try {
     const user = await User.findByToken(req.body.token);
@@ -32,7 +24,6 @@ const isUser = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
->>>>>>> main
   }
 };
 
