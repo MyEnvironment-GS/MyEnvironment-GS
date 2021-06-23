@@ -56,7 +56,7 @@ router.put('/', async (req, res, next) => {
         }
       });
       console.log(await instance.update({
-        quantity: Number(item.cartsThroughTable.quantity),
+        quantity: Number(item.throughTableCart.quantity),
         price: itemDetails.price
       }));
     });
