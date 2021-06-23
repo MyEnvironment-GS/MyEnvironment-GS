@@ -45,4 +45,14 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+// POST /api/furniture
+router.post('/', async (req, res, next) => {
+  try {
+    const newProduct = await Furniture.create(req.body);
+    res.send(newProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
