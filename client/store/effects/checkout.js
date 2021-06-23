@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { setInfo } from '../actions/action'
+import { setInfo, deleteCartItem } from '../actions/action'
 
 //Thunk
 
@@ -25,5 +25,14 @@ export const fetchInfo = (token) => {
     const res = await axios.get(`api/users/${token}`)
     const user = res.data
     dispatch(setInfo(user))
+  }
+}
+
+export const sendDeleteCartItem = (information, history) => {
+  return async (dispatch) => {
+    const res = await axios.delete(`api/cart/`, {data: {information: information}});
+    const cart = res.data
+    dispatch(deleteCartItem(cart))
+    history.push('/cart')
   }
 }
