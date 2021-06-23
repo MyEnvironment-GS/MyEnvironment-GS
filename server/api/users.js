@@ -3,6 +3,16 @@ const {
   models: { User, Cart },
 } = require('../db');
 
+router.get('/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id
+    const user = await User.findByToken(id);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //GET all USERS /api/users/
 router.get('/', async (req, res, next) => {
   try {
@@ -26,21 +36,11 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const user = await User.findByPk(id);
-    res.send(user);
-  } catch (error) {
-    next(error);
-  }
-});
-
 //PUT one User /api/users/:token
 router.put('/:token', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.params.token);
-    res.send(await user.update(req.body.user));
+    res.send(await user.update(req.body));
   } catch (error) {
     next(error);
   }
