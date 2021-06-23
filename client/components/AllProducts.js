@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fetchAllFurnitures } from '../store/effects/furnitures';
 
 export class AllProducts extends Component {
@@ -12,29 +12,6 @@ export class AllProducts extends Component {
     console.log(this.props);
   }
 
-  // render () {
-  //   return (
-  //     // <div>
-  //     //   <ul>
-  //     //     {furniture.map(furniture => {
-  //     //       return (
-  //     //         <li key={furniture.id} img={furniture.imageUrl}>
-  //     //           <h2>
-  //     //             <Link to={`/furniture/${furniture.id}`}>
-  //     //               {furniture.name}
-  //     //             </Link>
-  //     //           </h2>
-  //     //         </li>
-  //     //       );
-  //     //     })}
-  //     //   </ul>
-  //     // </div>
-  // 		<div>
-
-  // 		</div>
-
-  //   );
-  // }
   render () {
     const furniture = this.props.furniture.furnituresRedux || [];
     console.log(this);
@@ -49,7 +26,12 @@ export class AllProducts extends Component {
                     <div className='card'>
                       <div className='card-image'>
                         <img src={furniture.imageUrl}></img>
-                        <span className='card-title'>{furniture.name}</span>
+                        <Link
+                          className='card-title'
+                          to={`/furniture/${furniture.id}`}
+                        >
+                          {furniture.name}
+                        </Link>
                       </div>
                       <div className='card-content'>
                         <p>{`Price: $${furniture.price / 100}`}</p>
