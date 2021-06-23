@@ -5,6 +5,7 @@ import { fetchFurniture } from '../store/effects/furniture';
 import axios from 'axios';
 import { add_Furniture_To_Cart } from '../store/effects/cart';
 import { me } from '../store/auth';
+import { loadCheckoutLocal } from '../store/effects/checkout';
 
 export class SingleProduct extends React.Component {
   constructor () {
@@ -18,7 +19,32 @@ export class SingleProduct extends React.Component {
   }
 
   addToCart (event) {
-    this.props.addItemToCart(this.props.match.params.id, this.props.user);
+    let localCart;
+    if (this.props.isLoggedIn) {
+      this.props.addItemToCart(this.props.match.params.id, this.props.user);
+    } else {
+      if (window.localStorage.getItem('localCart')) {
+        localCart = JSON.parse(window.localStorage.getItem('localCart'));
+      } else {
+        localCart = [];
+      }
+      let idx;
+      for (let i = 0; i < localCart.length; i++) {
+        if (localCart[i].id === this.props.furniture.id) {
+          idx = i;
+        } else {
+          idx = -1;
+        }
+      }
+      if (idx > -1) {
+        localCart[idx].quantity++;
+      } else {
+        localCart.push(this.props.furniture);
+        idx = localCart.length - 1;
+        localCart[idx].quantity = 1;
+      }
+      window.localStorage.setItem('localCart', JSON.stringify(localCart));
+    }
   }
 
   render () {
@@ -58,6 +84,9 @@ const mapDispatch = dispatch => {
     },
     fetchUser: () => {
       dispatch(me());
+    },
+    loadCheckoutLocal: localCart => {
+      dispatch(loadCheckoutLocal(localCart));
     }
   };
 };
