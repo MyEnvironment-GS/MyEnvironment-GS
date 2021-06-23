@@ -5,7 +5,7 @@ const {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const user = await User.findByToken(id);
     res.send(user);
   } catch (error) {
@@ -63,5 +63,10 @@ router.post('/', async (req, res, next) => {
     next(error);
   }
 });
+
+// //PUT /api/users update user admin
+// router.put('/:id', async (req, res, next) => {
+
+// })
 
 module.exports = router;

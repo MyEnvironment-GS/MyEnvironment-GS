@@ -1,8 +1,9 @@
 const {
-  models: { Furniture, User, Cart, ThroughTableCart }
+  models: { Furniture, User, Cart, ThroughTableCart },
 } = require('../db');
 const axios = require('axios');
 const router = require('express').Router();
+const { ensureAdmin, isUser } = require('./authentication');
 
 //GET api/furniture
 router.get('/', async (req, res, next) => {
@@ -22,13 +23,13 @@ router.post('/add/:id', async (req, res, next) => {
     const cart = await Cart.findOne({
       where: {
         userId: user.id,
-        fulfilled: false
-      }
+        fulfilled: false,
+      },
     });
     const newInstance = await ThroughTableCart.create({
       cartId: Number(cart.id),
       furnitureId: Number(furniture.id),
-      price: Number(furniture.price)
+      price: Number(furniture.price),
     });
     res.send(newInstance);
   } catch (error) {
@@ -45,11 +46,32 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// POST /api/furniture
-router.post('/', async (req, res, next) => {
+//POST /api/furniture
+router.post('/', isUser, ensureAdmin, async (req, res, next) => {
   try {
     const newProduct = await Furniture.create(req.body);
     res.send(newProduct);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//PUT /api/furniture
+router.put('/:id', async (req, res, next) => {
+  try {
+    const product = await Furniture.findByPk(req.params.id);
+    res.send(await product.update(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Delete /api/furniture
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    await product.destroy();
+    res.send(product);
   } catch (error) {
     next(error);
   }
