@@ -6,6 +6,7 @@ import { authenticate } from '../store';
  * COMPONENT
  */
 const AuthForm = (props) => {
+  console.log('here are props', props);
   const { name, displayName, handleSubmit, error } = props;
 
   return (
@@ -17,6 +18,30 @@ const AuthForm = (props) => {
           </label>
           <input name="username" type="text" />
         </div>
+        {/* <div>
+          <label htmlFor="firstName">
+            <small>First Name</small>
+          </label>
+          <input name="firstName" type="text" />
+        </div>
+        <div>
+          <label htmlFor="lastName">
+            <small>Last Name</small>
+          </label>
+          <input name="lastName" type="text" />
+        </div>
+        <div>
+          <label htmlFor="email">
+            <small>Email</small>
+          </label>
+          <input name="email" type="text" />
+        </div>
+        <div>
+          <label htmlFor="phoneNumber">
+            <small>Phone Number</small>
+          </label>
+          <input name="phoneNumber" type="text" />
+        </div> */}
         <div>
           <label htmlFor="password">
             <small>Password</small>
@@ -41,7 +66,7 @@ const AuthForm = (props) => {
  */
 const mapLogin = (state) => {
   return {
-    name: 'login',
+    name: 'Login',
     displayName: 'Login',
     error: state.auth.error,
   };
@@ -49,8 +74,12 @@ const mapLogin = (state) => {
 
 const mapSignup = (state) => {
   return {
-    name: 'signup',
+    name: 'Sign up',
     displayName: 'Sign Up',
+    firstName: 'Sign Up',
+    lastName: 'Sign Up',
+    email: 'Sign Up',
+    phoneNumber: 'Sign Up',
     error: state.auth.error,
   };
 };
@@ -62,7 +91,22 @@ const mapDispatch = (dispatch) => {
       const formName = evt.target.name;
       const username = evt.target.username.value;
       const password = evt.target.password.value;
-      dispatch(authenticate(username, password, formName));
+      // const firstName = evt.target.firstName.value;
+      // const lastName = evt.target.lastName.value;
+      // const email = evt.target.email.value;
+      // const phoneNumber = evt.target.phoneNumber.value;
+
+      dispatch(
+        authenticate(
+          username,
+          password,
+          formName
+          // firstName,
+          // lastName,
+          // email,
+          // phoneNumber
+        )
+      );
     },
   };
 };

@@ -26,32 +26,32 @@ const User = db.define('user', {
   },
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
   lastName: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
   email: {
     type: Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // unique: true,
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
   phoneNumber: {
     type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    // },
   },
   userStatus: {
     type: Sequelize.ENUM(['USER', 'ADMIN']),
@@ -131,11 +131,11 @@ User.findByToken = async function (token) {
     const { id } = await jwt.verify(token, process.env.JWT);
     const user = User.findByPk(id, {
       include: {
-       model: Cart,
-       include: {
-         model: Furniture
-       }
-      }
+        model: Cart,
+        include: {
+          model: Furniture,
+        },
+      },
     });
     if (!user) {
       throw 'nooo';
@@ -169,6 +169,6 @@ User.afterCreate(async function (user) {
   const dummyFurniture2 = await Furniture.findByPk(2);
 
   // console.log(dummyFurniture.dataValues.price)
-  await dummyFurniture.addCart(userCart)
-  await dummyFurniture2.addCart(userCart)
+  await dummyFurniture.addCart(userCart);
+  await dummyFurniture2.addCart(userCart);
 });
