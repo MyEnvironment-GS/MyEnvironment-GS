@@ -56,37 +56,50 @@ class Cart extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.removeButtonLocal = this.removeButtonLocal.bind(this);
   }
 
   handleChange (event) {
-    function getFurnitureIndex (array, value) {
-      for (let i = 0; i < array.length; i++) {
-        if (array[i].id === Number(value)) {
-          return i;
+    if (this.props.isLoggedIn) {
+      function getFurnitureIndex (array, value) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].id === Number(value)) {
+            return i;
+          }
+        }
+        return -1;
+      }
+
+      function getCartIndex (array) {
+        for (let i = 0; i < array.length; i++) {
+          if (array[i].fulfilled === false) {
+            return i;
+          }
+        }
+        return -1;
+      }
+
+      const cartIndex = getCartIndex(this.props.carts);
+
+      const eventTargetIndex = getFurnitureIndex(
+        this.props.carts[cartIndex].furniture,
+        event.target.id
+      );
+
+      this.props.carts[cartIndex].furniture[
+        eventTargetIndex
+      ].throughTableCart.quantity = event.target.value;
+    } else {
+      let localCart = JSON.parse(window.localStorage.getItem('localCart'));
+      let idx;
+      for (let i = 0; i < localCart.length; i++) {
+        if (localCart[i].id == event.target.id) {
+          idx = i;
         }
       }
-      return -1;
+      localCart[idx].quantity = event.target.value;
+      window.localStorage.setItem('localCart', JSON.stringify(localCart));
     }
-
-    function getCartIndex (array) {
-      for (let i = 0; i < array.length; i++) {
-        if (array[i].fulfilled === false) {
-          return i;
-        }
-      }
-      return -1;
-    }
-
-    const cartIndex = getCartIndex(this.props.carts);
-
-    const eventTargetIndex = getFurnitureIndex(
-      this.props.carts[cartIndex].furniture,
-      event.target.id
-    );
-
-    this.props.carts[cartIndex].furniture[
-      eventTargetIndex
-    ].throughTableCart.quantity = event.target.value;
     this.setState({});
   }
 
@@ -120,43 +133,65 @@ class Cart extends React.Component {
           cartItems: cartItems
         });
       }
-    } else {
-      console.log('cart local');
-      this.props.loadCartLocal(window.localStorage.getItem('localCart'));
     }
   }
 
   handleSubmit (event) {
     event.preventDefault();
-    if (isLoggedIn) {
+    if (this.props.isLoggedIn) {
       const token = window.localStorage.getItem('token');
       const carts = this.props.carts || [];
       const activeCart =
         carts.filter(cart => cart.fulfilled === false)[0] || [];
       this.props.startCheckout(activeCart, token);
     } else {
+      this.props.history.push('/checkout');
     }
   }
 
+  removeButtonLocal (itemId) {
+    let localCart = JSON.parse(window.localStorage.getItem('localCart'));
+    let idx;
+    for (let i = 0; i < localCart.length; i++) {
+      if (localCart[i].id === itemId) {
+        idx = i;
+      }
+    }
+    localCart.splice(idx, 1);
+    window.localStorage.setItem('localCart', JSON.stringify(localCart));
+    this.setState({});
+  }
+
   render () {
+    let cartItems = [];
+    let summaryTotal;
+    let errorLog = false;
     const carts = this.props.carts || [];
     const activeCart = carts.filter(cart => cart.fulfilled === false)[0] || [];
-    const cartItems = activeCart.furniture || [];
-
-    const summaryReducer = (accum, item) => {
-      return accum + item.price * item.throughTableCart.quantity;
-    };
-    let summaryTotal = cartItems.reduce(summaryReducer, 0);
+    if (this.props.isLoggedIn) {
+      cartItems = activeCart.furniture || [];
+      const summaryReducer = (accum, item) => {
+        return accum + item.price * item.throughTableCart.quantity;
+      };
+      summaryTotal = cartItems.reduce(summaryReducer, 0);
+      const errorFinder = item => item.throughTableCart.quantity <= 0;
+      if (cartItems.findIndex(errorFinder) > -1) {
+        errorLog = true;
+      }
+    } else {
+      cartItems = JSON.parse(window.localStorage.getItem('localCart')) || [];
+      const summaryReducerLocal = (accum, item) => {
+        return accum + item.price * item.quantity;
+      };
+      summaryTotal = cartItems.reduce(summaryReducerLocal, 0);
+      const errorFinderLocal = item => item.quantity <= 0;
+      if (cartItems.findIndex(errorFinderLocal) > -1) {
+        errorLog = true;
+      }
+    }
 
     const { handleChange, handleSubmit } = this;
     const { classes } = this.props;
-
-    let errorLog = false;
-
-    const errorFinder = item => item.throughTableCart.quantity <= 0;
-    if (cartItems.findIndex(errorFinder) > -1) {
-      errorLog = true;
-    }
 
     return (
       <div className={classes.cardRoot}>
@@ -198,12 +233,24 @@ class Cart extends React.Component {
                           className={classes.inputField}
                           id={`${item.id}`}
                           type='number'
-                          value={item.throughTableCart.quantity}
+                          value={
+                            this.props.isLoggedIn
+                              ? item.throughTableCart.quantity
+                              : item.quantity
+                          }
                           name='itemQuantity'
                           onChange={handleChange}
-                          error={item.throughTableCart.quantity < 0}
+                          error={
+                            this.props.isLoggedIn
+                              ? item.throughTableCart.quantity
+                              : item.quantity < 0
+                          }
                           helperText={
-                            item.throughTableCart.quantity < 0
+                            this.props.isLoggedIn
+                              ? item.throughTableCart.quantity < 0
+                                ? 'value must be greater than 0'
+                                : ''
+                              : item.quantity < 0
                               ? 'value must be greater than 0'
                               : ''
                           }
@@ -216,7 +263,11 @@ class Cart extends React.Component {
                     <Grid item>
                       <Typography gutterBottom variant='body2'>
                         Price Total: $
-                        {(item.price * item.throughTableCart.quantity) / 100}
+                        {(item.price *
+                          (this.props.isLoggedIn
+                            ? item.throughTableCart.quantity
+                            : item.quantity)) /
+                          100}
                       </Typography>
                     </Grid>
                   </Grid>
@@ -226,11 +277,14 @@ class Cart extends React.Component {
                     variant='contained'
                     color='primary'
                     className={classes.cartButton}
-                    onClick={() =>
-                      this.props.deleteCartItem({
-                        id: item.id,
-                        cartId: item.throughTableCart.cartId
-                      })
+                    onClick={
+                      this.props.isLoggedIn
+                        ? () =>
+                            this.props.deleteCartItem({
+                              id: item.id,
+                              cartId: item.throughTableCart.cartId
+                            })
+                        : () => this.removeButtonLocal(item.id)
                     }
                   >
                     Remove
@@ -279,7 +333,6 @@ const mapDispatch = (dispatch, { history }) => {
     startCheckout: (activeCart, token) =>
       dispatch(loadCheckout(activeCart, history, token)),
     loadCart: token => dispatch(fetchInfo(token)),
-    loadCartLocal: localCart => dispatch(loadCheckoutLocal(localCart)),
     deleteCartItem: information =>
       dispatch(sendDeleteCartItem(information, history))
   };

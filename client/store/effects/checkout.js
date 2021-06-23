@@ -19,19 +19,11 @@ export const loadCheckout = (activeCart, history, token) => {
   };
 };
 
-export const fetchInfo = token => {
+export const loadCheckoutLocal = (localCart, information, history) => {
   return async dispatch => {
-    const res = await axios.get(`api/users/${token}`);
-    const user = res.data;
-    dispatch(setInfo(user));
-  };
-};
-
-export const loadCheckoutLocal = localCart => {
-  return async dispatch => {
-    console.log(localCart);
-    let furniture = [];
-    await axios.post('/api/cart/local', localCart);
+    await axios.post('/api/cart/local', { localCart, information });
+    history.push('/orderconfirmation');
+    window.localStorage.clear();
   };
 };
 export const fetchInfo = token => {

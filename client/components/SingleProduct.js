@@ -25,12 +25,24 @@ export class SingleProduct extends React.Component {
     } else {
       if (window.localStorage.getItem('localCart')) {
         localCart = JSON.parse(window.localStorage.getItem('localCart'));
-        console.log(window.localStorage);
       } else {
         localCart = [];
       }
-      localCart.push(this.props.furniture);
-      console.log(localCart, 'localcart');
+      let idx;
+      for (let i = 0; i < localCart.length; i++) {
+        if (localCart[i].id === this.props.furniture.id) {
+          idx = i;
+        } else {
+          idx = -1;
+        }
+      }
+      if (idx > -1) {
+        localCart[idx].quantity++;
+      } else {
+        localCart.push(this.props.furniture);
+        idx = localCart.length - 1;
+        localCart[idx].quantity = 1;
+      }
       window.localStorage.setItem('localCart', JSON.stringify(localCart));
     }
   }
