@@ -50,20 +50,20 @@ nav {
   align-items: center;
 }
 .button-link {
-  background-color: blueviolet;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .users-container {
-  background-color: chartreuse;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 .user-container {
-  background-color: pink;
+  outline: solid;
+  outline-width: 1px;
+  outline-color: rgb(224, 223, 223);
   width: 200px;
   height: 50px;
   margin: 10px;
@@ -79,7 +79,6 @@ nav {
 }
 
 .products-container {
-  background-color: chartreuse;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -87,7 +86,9 @@ nav {
 }
 
 .product-container {
-  background-color: pink;
+  outline: solid;
+  outline-width: 1px;
+  outline-color: rgb(224, 223, 223);
   width: 300px;
   height: 75px;
   margin: 10px;
