@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import {
   fetchInfo,
   loadCheckout,
-  loadCheckoutLocal
+  loadCheckoutLocal,
+  sendDeleteCartItem
 } from '../store/effects/checkout';
 import {
   Grid,
@@ -67,22 +68,30 @@ class Cart extends React.Component {
       return -1;
     }
 
+    function getCartIndex (array) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].fulfilled === false) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    const cartIndex = getCartIndex(this.props.carts);
+
     const eventTargetIndex = getFurnitureIndex(
-      this.props.carts[0].furniture,
+      this.props.carts[cartIndex].furniture,
       event.target.id
     );
 
-    console.log(eventTargetIndex);
-    this.props.carts[0].furniture[eventTargetIndex].throughTableCart.quantity =
-      event.target.value;
+    this.props.carts[cartIndex].furniture[
+      eventTargetIndex
+    ].throughTableCart.quantity = event.target.value;
     this.setState({});
   }
 
   componentDidUpdate (prevProps) {
-    if (
-      prevProps.carts &&
-      this.props.carts[0].furniture !== prevProps.carts[0].furniture
-    ) {
+    if (prevProps.carts && this.props.carts !== prevProps.carts) {
       const activeCart = this.props.carts.filter(
         cart => cart.fulfilled === false
       )[0];
@@ -121,15 +130,18 @@ class Cart extends React.Component {
     event.preventDefault();
     if (isLoggedIn) {
       const token = window.localStorage.getItem('token');
-      this.props.startCheckout(this.state.activeCart, token);
+      const carts = this.props.carts || [];
+      const activeCart =
+        carts.filter(cart => cart.fulfilled === false)[0] || [];
+      this.props.startCheckout(activeCart, token);
     } else {
     }
   }
 
   render () {
-    const carts = this.state.carts || [];
-    const activeCart = this.state.activeCart || [];
-    const cartItems = this.state.cartItems || [];
+    const carts = this.props.carts || [];
+    const activeCart = carts.filter(cart => cart.fulfilled === false)[0] || [];
+    const cartItems = activeCart.furniture || [];
 
     const summaryReducer = (accum, item) => {
       return accum + item.price * item.throughTableCart.quantity;
@@ -138,6 +150,13 @@ class Cart extends React.Component {
 
     const { handleChange, handleSubmit } = this;
     const { classes } = this.props;
+
+    let errorLog = false;
+
+    const errorFinder = item => item.throughTableCart.quantity <= 0;
+    if (cartItems.findIndex(errorFinder) > -1) {
+      errorLog = true;
+    }
 
     return (
       <div className={classes.cardRoot}>
@@ -182,6 +201,12 @@ class Cart extends React.Component {
                           value={item.throughTableCart.quantity}
                           name='itemQuantity'
                           onChange={handleChange}
+                          error={item.throughTableCart.quantity < 0}
+                          helperText={
+                            item.throughTableCart.quantity < 0
+                              ? 'value must be greater than 0'
+                              : ''
+                          }
                           InputLabelProps={{
                             shrink: true
                           }}
@@ -197,9 +222,19 @@ class Cart extends React.Component {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant='body2' style={{ cursor: 'pointer' }}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    className={classes.cartButton}
+                    onClick={() =>
+                      this.props.deleteCartItem({
+                        id: item.id,
+                        cartId: item.throughTableCart.cartId
+                      })
+                    }
+                  >
                     Remove
-                  </Typography>
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>
@@ -223,6 +258,7 @@ class Cart extends React.Component {
               color='primary'
               type='submit'
               className={classes.cartButton}
+              disabled={errorLog}
             >
               Continue to Checkout
             </Button>
@@ -243,7 +279,9 @@ const mapDispatch = (dispatch, { history }) => {
     startCheckout: (activeCart, token) =>
       dispatch(loadCheckout(activeCart, history, token)),
     loadCart: token => dispatch(fetchInfo(token)),
-    loadCartLocal: localCart => dispatch(loadCheckoutLocal(localCart))
+    loadCartLocal: localCart => dispatch(loadCheckoutLocal(localCart)),
+    deleteCartItem: information =>
+      dispatch(sendDeleteCartItem(information, history))
   };
 };
 
