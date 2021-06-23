@@ -48,6 +48,7 @@ router.use(isUser);
 //POST /api/cart
 router.post('/', async (req, res, next) => {
   try {
+    console.log(req.body)
     const newCart = await Cart.create({});
     const user = await User.findByPk(req.body.user.data.id);
     const userCarts = req.body.user.data.carts;

@@ -90,10 +90,7 @@ class Cart extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.carts &&
-      this.props.carts!== prevProps.carts
-    ) {
+    if (prevProps.carts && this.props.carts !== prevProps.carts) {
       const activeCart = this.props.carts.filter(
         (cart) => cart.fulfilled === false
       )[0];
@@ -126,13 +123,17 @@ class Cart extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const token = window.localStorage.getItem("token");
-    this.props.startCheckout(this.state.activeCart, token);
+    const carts = this.props.carts || [];
+    const activeCart =
+      carts.filter((cart) => cart.fulfilled === false)[0] || [];
+    this.props.startCheckout(activeCart, token);
   }
 
   render() {
-    const carts = this.state.carts || [];
-    const activeCart = this.state.activeCart || [];
-    const cartItems = this.state.cartItems || [];
+    const carts = this.props.carts || [];
+    const activeCart =
+      carts.filter((cart) => cart.fulfilled === false)[0] || [];
+    const cartItems = activeCart.furniture || [];
 
     const summaryReducer = (accum, item) => {
       return accum + item.price * item.throughTableCart.quantity;
@@ -142,7 +143,7 @@ class Cart extends React.Component {
     const { handleChange, handleSubmit } = this;
     const { classes } = this.props;
 
-    console.log(this)
+    console.log(this);
 
     return (
       <div className={classes.cardRoot}>
@@ -206,7 +207,12 @@ class Cart extends React.Component {
                     variant="contained"
                     color="primary"
                     className={classes.cartButton}
-                    onClick={()=> this.props.deleteCartItem({id: item.id, cartId: item.throughTableCart.cartId })}
+                    onClick={() =>
+                      this.props.deleteCartItem({
+                        id: item.id,
+                        cartId: item.throughTableCart.cartId,
+                      })
+                    }
                   >
                     Remove
                   </Button>
