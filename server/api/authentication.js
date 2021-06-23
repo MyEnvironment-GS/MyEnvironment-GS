@@ -13,7 +13,7 @@ function ensureAdmin(req, res, next) {
 const isUser = async (req, res, next) => {
   // console.log(req.body)
   try {
-    const user = await User.findByToken(req.body.token);
+    const user = await User.findByToken(req.headers.authorization);
     // console.log(user)
     //added by Joseph
     req.user = user;
