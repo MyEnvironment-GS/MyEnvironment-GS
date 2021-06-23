@@ -17,7 +17,7 @@ router.get('/:id', async (req, res, next) => {
 
 const { isUser } = require('./authentication');
 
-router.use(isUser);
+// router.use(isUser);
 
 //POST /api/cart
 router.post('/', async (req, res, next) => {
@@ -40,6 +40,17 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+//POST /api/cart/local LOCALCART
+router.post('/local', async (req, res, next) => {
+  try {
+    console.log(req.body);
+    console.log(Object.keys(Cart.prototype));
+    res.send();
+  } catch (error) {
+    next(error);
+  }
+});
+
 //Update cart
 router.put('/', async (req, res, next) => {
   try {
@@ -55,10 +66,12 @@ router.put('/', async (req, res, next) => {
           furnitureId: itemId
         }
       });
-      console.log(await instance.update({
-        quantity: Number(item.cartsThroughTable.quantity),
-        price: itemDetails.price
-      }));
+      console.log(
+        await instance.update({
+          quantity: Number(item.cartsThroughTable.quantity),
+          price: itemDetails.price
+        })
+      );
     });
     res.sendStatus(201);
   } catch (error) {

@@ -1,6 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import { fetchInfo, loadCheckout } from "../store/effects/checkout";
+import React from 'react';
+import { connect } from 'react-redux';
+import {
+  fetchInfo,
+  loadCheckout,
+  loadCheckoutLocal
+} from '../store/effects/checkout';
 import {
   Grid,
   Paper,
@@ -8,53 +12,53 @@ import {
   ButtonBase,
   withStyles,
   Button,
-  TextField,
-} from "@material-ui/core";
+  TextField
+} from '@material-ui/core';
 
-const useStyles = (theme) => ({
+const useStyles = theme => ({
   cardRoot: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   cartCard: {
     padding: theme.spacing(2),
-    margin: "auto",
+    margin: 'auto',
     marginTop: 10,
-    maxWidth: 750,
+    maxWidth: 750
   },
   cartItemImage: {
     width: 128,
-    height: 128,
+    height: 128
   },
   cartItemImg: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
+    margin: 'auto',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%'
   },
   cartButton: {
     padding: theme.spacing(2),
-    margin: "auto",
+    margin: 'auto',
     marginTop: 20,
-    maxWidth: 750,
-  },
+    maxWidth: 750
+  }
 });
 
 class Cart extends React.Component {
-  constructor() {
+  constructor () {
     super();
     this.state = {
       carts: [],
       activeCart: [],
       cartItems: [],
-      checkoutSummary: [],
+      checkoutSummary: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    function getFurnitureIndex(array, value) {
+  handleChange (event) {
+    function getFurnitureIndex (array, value) {
       for (let i = 0; i < array.length; i++) {
         if (array[i].id === Number(value)) {
           return i;
@@ -74,47 +78,55 @@ class Cart extends React.Component {
     this.setState({});
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (
       prevProps.carts &&
       this.props.carts[0].furniture !== prevProps.carts[0].furniture
     ) {
       const activeCart = this.props.carts.filter(
-        (cart) => cart.fulfilled === false
+        cart => cart.fulfilled === false
       )[0];
       const cartItems = activeCart.furniture;
 
       this.setState({
         carts: this.props.carts,
         activeCart: activeCart,
-        cartItems: cartItems,
+        cartItems: cartItems
       });
     }
   }
 
-  componentDidMount() {
-    const token = window.localStorage.getItem("token");
-    this.props.loadCart(token);
-    if (this.props.carts) {
-      const activeCart = this.props.carts.filter(
-        (cart) => cart.fulfilled === false
-      )[0];
-      const cartItems = activeCart.furniture;
-      this.setState({
-        carts: this.props.carts,
-        activeCart: activeCart,
-        cartItems: cartItems,
-      });
+  componentDidMount () {
+    if (window.localStorage.getItem('token')) {
+      const token = window.localStorage.getItem('token');
+      this.props.loadCart(token);
+      if (this.props.carts) {
+        const activeCart = this.props.carts.filter(
+          cart => cart.fulfilled === false
+        )[0];
+        const cartItems = activeCart.furniture;
+        this.setState({
+          carts: this.props.carts,
+          activeCart: activeCart,
+          cartItems: cartItems
+        });
+      }
+    } else {
+      console.log('cart local');
+      this.props.loadCartLocal(window.localStorage.getItem('localCart'));
     }
   }
 
-  handleSubmit(event) {
+  handleSubmit (event) {
     event.preventDefault();
-    const token = window.localStorage.getItem("token");
-    this.props.startCheckout(this.state.activeCart, token);
+    if (isLoggedIn) {
+      const token = window.localStorage.getItem('token');
+      this.props.startCheckout(this.state.activeCart, token);
+    } else {
+    }
   }
 
-  render() {
+  render () {
     const carts = this.state.carts || [];
     const activeCart = this.state.activeCart || [];
     const cartItems = this.state.cartItems || [];
@@ -131,13 +143,13 @@ class Cart extends React.Component {
       <div className={classes.cardRoot}>
         <Grid container className={classes.cartCard}>
           <Grid item xs={12}>
-            <Typography gutterBottom variant="h3">
+            <Typography gutterBottom variant='h3'>
               your cart
             </Typography>
           </Grid>
         </Grid>
-        <div className="cart-ItemsContainer">
-          {cartItems.map((item) => (
+        <div className='cart-ItemsContainer'>
+          {cartItems.map(item => (
             <Paper className={classes.cartCard} key={item.id}>
               <Grid container spacing={2}>
                 <Grid item>
@@ -145,39 +157,39 @@ class Cart extends React.Component {
                     <img
                       className={classes.cartItemImg}
                       src={item.imageUrl}
-                      alt="cart-ItemPicture"
+                      alt='cart-ItemPicture'
                     />
                   </ButtonBase>
                 </Grid>
                 <Grid item xs={12} sm container>
-                  <Grid item xs container direction="column" spacing={2}>
+                  <Grid item xs container direction='column' spacing={2}>
                     <Grid item>
-                      <Typography gutterBottom variant="body1">
+                      <Typography gutterBottom variant='body1'>
                         {item.name}
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography gutterBottom variant="subtitle2">
+                      <Typography gutterBottom variant='subtitle2'>
                         {item.productId}
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography gutterBottom variant="subtitle2">
+                      <Typography gutterBottom variant='subtitle2'>
                         <TextField
                           className={classes.inputField}
                           id={`${item.id}`}
-                          type="number"
+                          type='number'
                           value={item.throughTableCart.quantity}
-                          name="itemQuantity"
+                          name='itemQuantity'
                           onChange={handleChange}
                           InputLabelProps={{
-                            shrink: true,
+                            shrink: true
                           }}
                         />
                       </Typography>
                     </Grid>
                     <Grid item>
-                      <Typography gutterBottom variant="body2">
+                      <Typography gutterBottom variant='body2'>
                         Price Total: $
                         {(item.price * item.throughTableCart.quantity) / 100}
                       </Typography>
@@ -185,7 +197,7 @@ class Cart extends React.Component {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body2" style={{ cursor: "pointer" }}>
+                  <Typography variant='body2' style={{ cursor: 'pointer' }}>
                     Remove
                   </Typography>
                 </Grid>
@@ -194,22 +206,22 @@ class Cart extends React.Component {
           ))}
         </div>
         <Paper className={classes.cartCard}>
-          <Typography gutterBottom variant="subtitle2">
+          <Typography gutterBottom variant='subtitle2'>
             subtotal: ${(summaryTotal / 100).toFixed(2)}
           </Typography>
-          <Typography gutterBottom variant="subtitle2">
+          <Typography gutterBottom variant='subtitle2'>
             shipping and taxes: ${((summaryTotal * 0.4) / 100).toFixed(2)}
           </Typography>
-          <Typography gutterBottom variant="subtitle2">
+          <Typography gutterBottom variant='subtitle2'>
             total: ${((summaryTotal * 1.4) / 100).toFixed(2)}
           </Typography>
         </Paper>
-        <form id="toShippingandBilling" onSubmit={handleSubmit}>
+        <form id='toShippingandBilling' onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Button
-              variant="contained"
-              color="primary"
-              type="submit"
+              variant='contained'
+              color='primary'
+              type='submit'
               className={classes.cartButton}
             >
               Continue to Checkout
@@ -221,15 +233,17 @@ class Cart extends React.Component {
   }
 }
 
-const mapState = (state) => ({
+const mapState = state => ({
   carts: state.users.carts,
+  isLoggedIn: !!state.auth.id
 });
 
 const mapDispatch = (dispatch, { history }) => {
   return {
     startCheckout: (activeCart, token) =>
       dispatch(loadCheckout(activeCart, history, token)),
-    loadCart: (token) => dispatch(fetchInfo(token)),
+    loadCart: token => dispatch(fetchInfo(token)),
+    loadCartLocal: localCart => dispatch(loadCheckoutLocal(localCart))
   };
 };
 

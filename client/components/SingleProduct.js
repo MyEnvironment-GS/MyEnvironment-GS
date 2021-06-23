@@ -5,6 +5,7 @@ import { fetchFurniture } from '../store/effects/furniture';
 import axios from 'axios';
 import { add_Furniture_To_Cart } from '../store/effects/cart';
 import { me } from '../store/auth';
+import { loadCheckoutLocal } from '../store/effects/checkout';
 
 export class SingleProduct extends React.Component {
   constructor () {
@@ -18,15 +19,19 @@ export class SingleProduct extends React.Component {
   }
 
   addToCart (event) {
-    if (isLoggedIn) {
+    let localCart;
+    if (this.props.isLoggedIn) {
       this.props.addItemToCart(this.props.match.params.id, this.props.user);
     } else {
       if (window.localStorage.getItem('localCart')) {
-        let localCart = window.localStorage.getItem('localCart');
+        localCart = JSON.parse(window.localStorage.getItem('localCart'));
+        console.log(window.localStorage);
       } else {
-        let localCart = [];
-        window.localStorage.setItem;
+        localCart = [];
       }
+      localCart.push(this.props.furniture);
+      console.log(localCart, 'localcart');
+      window.localStorage.setItem('localCart', JSON.stringify(localCart));
     }
   }
 
@@ -67,6 +72,9 @@ const mapDispatch = dispatch => {
     },
     fetchUser: () => {
       dispatch(me());
+    },
+    loadCheckoutLocal: localCart => {
+      dispatch(loadCheckoutLocal(localCart));
     }
   };
 };
