@@ -3,6 +3,7 @@ const {
 } = require('../db');
 const axios = require('axios');
 const router = require('express').Router();
+const { ensureAdmin, isUser } = require('./authentication');
 
 //GET api/furniture
 router.get('/', async (req, res, next) => {
@@ -46,7 +47,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 //POST /api/furniture
-router.post('/', async (req, res, next) => {
+router.post('/', isUser, ensureAdmin, async (req, res, next) => {
   try {
     const newProduct = await Furniture.create(req.body);
     res.send(newProduct);
