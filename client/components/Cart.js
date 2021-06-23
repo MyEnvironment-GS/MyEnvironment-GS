@@ -69,7 +69,7 @@ class Cart extends React.Component {
     );
 
     console.log(eventTargetIndex);
-    this.props.carts[0].furniture[eventTargetIndex].cartsThroughTable.quantity =
+    this.props.carts[0].furniture[eventTargetIndex].throughTableCart.quantity =
       event.target.value;
     this.setState({});
   }
@@ -120,7 +120,7 @@ class Cart extends React.Component {
     const cartItems = this.state.cartItems || [];
 
     const summaryReducer = (accum, item) => {
-      return accum + item.price * item.cartsThroughTable.quantity;
+      return accum + item.price * item.throughTableCart.quantity;
     };
     let summaryTotal = cartItems.reduce(summaryReducer, 0);
 
@@ -167,7 +167,7 @@ class Cart extends React.Component {
                           className={classes.inputField}
                           id={`${item.id}`}
                           type="number"
-                          value={item.cartsThroughTable.quantity}
+                          value={item.throughTableCart.quantity}
                           name="itemQuantity"
                           onChange={handleChange}
                           InputLabelProps={{
@@ -179,7 +179,7 @@ class Cart extends React.Component {
                     <Grid item>
                       <Typography gutterBottom variant="body2">
                         Price Total: $
-                        {(item.price * item.cartsThroughTable.quantity) / 100}
+                        {(item.price * item.throughTableCart.quantity) / 100}
                       </Typography>
                     </Grid>
                   </Grid>
