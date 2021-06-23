@@ -62,7 +62,6 @@ class CartShippingAndBilling extends Component {
   componentDidMount() {
     const token = window.localStorage.getItem("token")
     this.props.fetchInfo(token)
-    console.log('after')
   }
 
   handleChange(event) {

@@ -6,6 +6,7 @@ export const GET_BIOGRAPHIES = 'GET_BIOGRAPHIES';
 export const GET_USERS = 'GET_USERS';
 export const GET_SINGLE_USER = 'GET_SINGLE_USER';
 export const GET_USER = 'GET_USER';
+export const DELETE_CART_ITEM = 'DELETE_CART_ITEM'
 
 export default {
   GET_DISTRIBUTIONS,
@@ -15,5 +16,6 @@ export default {
   GET_BIOGRAPHIES,
   GET_USERS,
   GET_SINGLE_USER,
-  GET_USER
+  GET_USER,
+  DELETE_CART_ITEM
 };

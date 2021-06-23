@@ -15,6 +15,32 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+router.delete('/', async (req, res, next) => {
+  try {
+    console.log(req.body)
+    const furnitureId = req.body.information.id
+    const cartId = req.body.information.cartId
+
+    const cartInstance = await ThroughTableCart.findOne({
+      where: {
+        furnitureId: furnitureId,
+        cartId: cartId
+      }
+    })
+
+    const cart = await Cart.findOne({
+      where: {
+        id: cartId
+      }
+    })
+    const user = await cart.getUser()
+    const allCarts = await user.getCarts()
+    await cartInstance.destroy()
+    res.send(allCarts)
+  } catch (error) {
+    next(error);
+  }
+});
 const { isUser } = require('./authentication');
 
 router.use(isUser);
@@ -55,10 +81,10 @@ router.put('/', async (req, res, next) => {
           furnitureId: itemId
         }
       });
-      console.log(await instance.update({
+      await instance.update({
         quantity: Number(item.throughTableCart.quantity),
         price: itemDetails.price
-      }));
+      });
     });
     res.sendStatus(201);
   } catch (error) {
@@ -66,19 +92,3 @@ router.put('/', async (req, res, next) => {
   }
 });
 
-router.delete('/', async (req, res, next) => {
-  try {
-    const furnitureId = req.body;
-    const cartId = req.body.activeCart.id;
-    const instance = await ThroughTableCart.findOne({
-      where: {
-        cartId: cartId,
-        furnitureId: furnitureId
-      }
-    });
-    await instance.destroy();
-    res.send(instance);
-  } catch (error) {
-    next(error);
-  }
-});

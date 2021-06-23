@@ -7,6 +7,8 @@ import { GET_FURNITURE } from '../constants/constants';
 import { GET_BIOGRAPHIES } from '../constants/constants';
 import { GET_USER } from '../constants/constants';
 import { GET_SINGLE_USER } from '../constants/constants';
+import { DELETE_CART_ITEM } from '../constants/constants';
+
 
 // ACTION CREATORS
 
@@ -70,5 +72,12 @@ export const getSingleUser = (data) => {
   return {
     type: GET_SINGLE_USER,
     data,
+  }
+}
+
+export const deleteCartItem = (data) => {
+  return {
+    type: DELETE_CART_ITEM,
+    data
   }
 }

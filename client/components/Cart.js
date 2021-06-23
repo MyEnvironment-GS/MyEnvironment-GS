@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchInfo, loadCheckout } from "../store/effects/checkout";
+import {
+  fetchInfo,
+  loadCheckout,
+  sendDeleteCartItem,
+} from "../store/effects/checkout";
 import {
   Grid,
   Paper,
@@ -65,31 +69,30 @@ class Cart extends React.Component {
 
     function getCartIndex(array) {
       for (let i = 0; i < array.length; i++) {
-        if(array[i].fulfilled === false) {
-          return i
+        if (array[i].fulfilled === false) {
+          return i;
         }
       }
-      return -1
+      return -1;
     }
 
-    const cartIndex = getCartIndex(this.props.carts)
+    const cartIndex = getCartIndex(this.props.carts);
 
     const eventTargetIndex = getFurnitureIndex(
       this.props.carts[cartIndex].furniture,
       event.target.id
     );
 
-
-    console.log(eventTargetIndex);
-    this.props.carts[cartIndex].furniture[eventTargetIndex].throughTableCart.quantity =
-      event.target.value;
+    this.props.carts[cartIndex].furniture[
+      eventTargetIndex
+    ].throughTableCart.quantity = event.target.value;
     this.setState({});
   }
 
   componentDidUpdate(prevProps) {
     if (
       prevProps.carts &&
-      this.props.carts[0].furniture !== prevProps.carts[0].furniture
+      this.props.carts!== prevProps.carts
     ) {
       const activeCart = this.props.carts.filter(
         (cart) => cart.fulfilled === false
@@ -105,7 +108,6 @@ class Cart extends React.Component {
   }
 
   componentDidMount() {
-    console.log('trigger')
     const token = window.localStorage.getItem("token");
     this.props.loadCart(token);
     if (this.props.carts) {
@@ -119,7 +121,6 @@ class Cart extends React.Component {
         cartItems: cartItems,
       });
     }
-    console.log(this)
   }
 
   handleSubmit(event) {
@@ -140,6 +141,8 @@ class Cart extends React.Component {
 
     const { handleChange, handleSubmit } = this;
     const { classes } = this.props;
+
+    console.log(this)
 
     return (
       <div className={classes.cardRoot}>
@@ -199,9 +202,14 @@ class Cart extends React.Component {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body2" style={{ cursor: "pointer" }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.cartButton}
+                    onClick={()=> this.props.deleteCartItem({id: item.id, cartId: item.throughTableCart.cartId })}
+                  >
                     Remove
-                  </Typography>
+                  </Button>
                 </Grid>
               </Grid>
             </Paper>
@@ -244,6 +252,8 @@ const mapDispatch = (dispatch, { history }) => {
     startCheckout: (activeCart, token) =>
       dispatch(loadCheckout(activeCart, history, token)),
     loadCart: (token) => dispatch(fetchInfo(token)),
+    deleteCartItem: (information) =>
+      dispatch(sendDeleteCartItem(information, history)),
   };
 };
 
