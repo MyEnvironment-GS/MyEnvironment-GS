@@ -4,18 +4,27 @@ const {
 } = require('../db');
 const { ensureAdmin, isUser } = require('./authentication');
 
-router.get('/:id', async (req, res, next) => {
+// router.get('/:id', async (req, res, next) => {
+//   try {
+//     const id = req.params.id;
+//     const user = await User.findByToken(id);
+//     res.send(user);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+// GET one user /api/users/me
+router.get('/me', isUser, async (req, res, next) => {
   try {
-    const id = req.params.id;
-    const user = await User.findByToken(id);
-    res.send(user);
+    console.log('users route');
+    res.send(req.user);
   } catch (error) {
     next(error);
   }
 });
-
 //GET all USERS /api/users/
-router.get('/', async (req, res, next) => {
+router.get('/', [isUser, ensureAdmin], async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
@@ -46,19 +55,21 @@ router.get('/', async (req, res, next) => {
 //   }
 // });
 
-router.put('/', [isUser, ensureAdmin], async (req, res, next) => {
+router.put('/me', isUser, async (req, res, next) => {
   try {
+    console.log(req.headers.authorization)
     const user = await User.findByToken(req.headers.authorization);
-    res.send(await user.update(req.body));
+    res.send(await user.update(req.body.information));
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/:token', async (req, res, next) => {
+router.put('/', [isUser, ensureAdmin], async (req, res, next) => {
   try {
-    console.log('users route');
-    res.send(await User.findByToken(req.params.token));
+    console.log(req.headers.authorization)
+    const user = await User.findByToken(req.headers.authorization);
+    res.send(await user.update(req.body));
   } catch (error) {
     next(error);
   }

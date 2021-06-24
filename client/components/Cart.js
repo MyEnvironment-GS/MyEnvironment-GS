@@ -60,25 +60,24 @@ class Cart extends React.Component {
   }
 
   handleChange (event) {
+    function getFurnitureIndex (array, value) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].id === Number(value)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+    function getCartIndex (array) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i].fulfilled === false) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
     if (this.props.isLoggedIn) {
-      function getFurnitureIndex (array, value) {
-        for (let i = 0; i < array.length; i++) {
-          if (array[i].id === Number(value)) {
-            return i;
-          }
-        }
-        return -1;
-      }
-
-      function getCartIndex (array) {
-        for (let i = 0; i < array.length; i++) {
-          if (array[i].fulfilled === false) {
-            return i;
-          }
-        }
-        return -1;
-      }
-
       const cartIndex = getCartIndex(this.props.carts);
 
       const eventTargetIndex = getFurnitureIndex(
@@ -146,6 +145,7 @@ class Cart extends React.Component {
       this.props.startCheckout(activeCart, token);
     } else {
       this.props.history.push('/checkout');
+      this.setState({})
     }
   }
 
@@ -242,7 +242,7 @@ class Cart extends React.Component {
                           onChange={handleChange}
                           error={
                             this.props.isLoggedIn
-                              ? item.throughTableCart.quantity
+                              ? item.throughTableCart.quantity < 0
                               : item.quantity < 0
                           }
                           helperText={

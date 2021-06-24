@@ -1,18 +1,19 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { Login, Signup } from './components/AuthForm';
-import Home from './components/Home';
-import { me } from './store';
-import AllProducts from './components/AllProducts';
-import Users from './components/Users';
-import SingleProduct from './components/SingleProduct';
-import Cart from './components/Cart';
-import About from './components/About';
-import CartsShippingAndBilling from './components/CartShippingAndBilling';
-import  SingleUser  from './components/SingleUser';
-import LandingPage from './components/LandingPage';
-import Admin from './components/Admin';
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { withRouter, Route, Switch, Redirect } from "react-router-dom";
+import { Login, Signup } from "./components/AuthForm";
+import Home from "./components/Home";
+import { me } from "./store";
+import AllProducts from "./components/AllProducts";
+import Users from "./components/Users";
+import SingleProduct from "./components/SingleProduct";
+import Cart from "./components/Cart";
+import About from "./components/About";
+import CartsShippingAndBilling from "./components/CartShippingAndBilling";
+import SingleUser from "./components/SingleUser";
+import LandingPage from "./components/LandingPage";
+import Admin from "./components/Admin";
+import OrderConfirmation from "./components/OrderConfirmation";
 
 /**
  * COMPONENT
@@ -32,17 +33,20 @@ class Routes extends Component {
             <Route exact path="/users" component={Users} />
             <Route path="/users/:id" component={SingleUser} />
             <Route path="/admin" component={Admin} />
-            <Route path="/home" component={Home} />
+            <Route path="/orderconfirmation" component={OrderConfirmation} />
+            <Route path="/home" component={LandingPage} />
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={CartsShippingAndBilling} />
             <Route path="/furniture/:id" component={SingleProduct} />
             <Route path="/furniture" component={AllProducts} />
             <Route path="/about" component={About} />
-            <Redirect to="/LandingPage" component={ LandingPage}/>
+            <Redirect to="/home" />
           </Switch>
         ) : (
           <Switch>
             <Route path="/" exact component={Login} />
+            <Route path="/home" exact component={LandingPage} />
+            <Route path="/orderconfirmation" component={OrderConfirmation} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/furniture/:id" component={SingleProduct} />
@@ -50,6 +54,7 @@ class Routes extends Component {
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={CartsShippingAndBilling} />
             <Route path="/about" component={About} />
+            <Redirect to="/home" />
           </Switch>
         )}
       </div>
