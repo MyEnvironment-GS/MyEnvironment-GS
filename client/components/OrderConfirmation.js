@@ -5,11 +5,8 @@ export class OrderConfirmation extends Component {
   render() {
     const cardStyle = {
       display: 'flex',
-      justifyContent: 'center',
-      marginTop: 30
+      justifyContent:'center'
     }
-
-
 
 
     return (
@@ -18,13 +15,8 @@ export class OrderConfirmation extends Component {
 
 
           <h1 style={cardStyle}>We've received your order</h1>
-
-          <hr />
-          {/* <Link to="/signup">
-          <Button style={{marginTop: '15%',marginLeft: '40%'}}variant="contained" color="primary">
-						Create account
-					</Button>
-          </Link> */}
+              <hr/>
+    
         </Card>
       </div>
     )
