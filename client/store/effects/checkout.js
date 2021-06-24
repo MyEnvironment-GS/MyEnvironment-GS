@@ -4,9 +4,13 @@ import { setInfo, deleteCartItem } from '../actions/action';
 //Thunk
 
 export const sendOrderInformation = (information, token, history) => {
+
   return async dispatch => {
-    const user = await axios.put(`api/users/${token}`, information);
-    await axios.post(`api/cart`, { user, token });
+    const user = await axios.put(`/api/users/me`, {information}, {
+    headers: {
+      authorization: token
+    }});
+    await axios.post(`/api/cart`, { user });
 
     history.push('/orderconfirmation');
   };
@@ -14,7 +18,7 @@ export const sendOrderInformation = (information, token, history) => {
 
 export const loadCheckout = (activeCart, history, token) => {
   return async dispatch => {
-    const updatedCart = await axios.put(`api/cart`, { activeCart, token });
+    const updatedCart = await axios.put(`/api/cart`, { activeCart, token });
     history.push('/checkout');
   };
 };
@@ -26,10 +30,15 @@ export const loadCheckoutLocal = (localCart, information, history) => {
     window.localStorage.clear();
   };
 };
+
 export const fetchInfo = token => {
   return async dispatch => {
-    const res = await axios.get(`api/users/${token}`);
+    console.log(token)
+    const res = await axios.get('/api/users/me', {headers: {
+      authorization: token
+    }});
     const user = res.data;
+    console.log(user)
     dispatch(setInfo(user));
   };
 };
