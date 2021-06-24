@@ -1,8 +1,18 @@
 const router = require('express').Router();
 const {
-  models: { User, Cart }
+  models: { User, Cart },
 } = require('../db');
-module.exports = router;
+const { ensureAdmin, isUser } = require('./authentication');
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findByToken(id);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
 
 //GET all USERS /api/users/
 router.get('/', async (req, res, next) => {
@@ -17,9 +27,9 @@ router.get('/', async (req, res, next) => {
         'firstName',
         'lastName',
         'phoneNumber',
-        'email'
+        'email',
       ],
-      include: Cart
+      include: Cart,
     });
     res.json(users);
   } catch (err) {
@@ -27,21 +37,19 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const user = await User.findByPk(id);
-    res.send(user);
-  } catch (error) {
-    next(error);
-  }
-});
+// router.put('/:token', async (req, res, next) => {
+//   try {
+//     const user = await User.findByToken(req.params.token);
+//     res.send(await user.update(req.body));
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
-//PUT one User /api/users/:token
-router.put('/:token', async (req, res, next) => {
+router.put('/', [isUser, ensureAdmin], async (req, res, next) => {
   try {
-    const user = await User.findByToken(req.params.token);
-    res.send(await user.update(req.body.user));
+    const user = await User.findByToken(req.headers.authorization);
+    res.send(await user.update(req.body));
   } catch (error) {
     next(error);
   }
@@ -55,3 +63,35 @@ router.get('/:token', async (req, res, next) => {
     next(error);
   }
 });
+
+//POST one User /api/users/:token
+router.post('/', [isUser, ensureAdmin], async (req, res, next) => {
+  try {
+    const newUser = await User.create(req.body);
+    res.send(newUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// //PUT /api/users update user admin
+router.put('/:id', [isUser, ensureAdmin], async (req, res, next) => {
+  try {
+    const userToUpdate = await User.findByPk(req.params.id);
+    res.send(await userToUpdate.update(req.body));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/:id', [isUser, ensureAdmin], async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    await user.destroy();
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;

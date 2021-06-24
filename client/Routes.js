@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { Login, Signup } from './components/AuthForm';
 import Home from './components/Home';
-
 import { me } from './store';
 import AllProducts from './components/AllProducts';
-
 import Users from './components/Users';
 import SingleProduct from './components/SingleProduct';
 import Cart from './components/Cart';
@@ -14,6 +12,8 @@ import About from './components/About';
 import CartsShippingAndBilling from './components/CartShippingAndBilling';
 import  SingleUser  from './components/SingleUser';
 import LandingPage from './components/LandingPage';
+import Admin from './components/Admin';
+
 /**
  * COMPONENT
  */
@@ -30,14 +30,15 @@ class Routes extends Component {
         {isLoggedIn ? (
           <Switch>
             <Route exact path="/users" component={Users} />
-            <Route  path="/users/:id" component={SingleUser} />
+            <Route path="/users/:id" component={SingleUser} />
+            <Route path="/admin" component={Admin} />
             <Route path="/home" component={Home} />
             <Route path="/cart" component={Cart} />
             <Route path="/checkout" component={CartsShippingAndBilling} />
             <Route path="/furniture/:id" component={SingleProduct} />
             <Route path="/furniture" component={AllProducts} />
             <Route path="/about" component={About} />
-            <Redirect to="/LandingPage" />
+            <Redirect to="/LandingPage" component={ LandingPage}/>
           </Switch>
         ) : (
           <Switch>
