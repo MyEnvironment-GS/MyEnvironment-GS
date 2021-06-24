@@ -13,7 +13,7 @@ import Cart from './components/Cart';
 import About from './components/About';
 import CartsShippingAndBilling from './components/CartShippingAndBilling';
 import  SingleUser  from './components/SingleUser';
-
+import LandingPage from './components/LandingPage';
 /**
  * COMPONENT
  */
@@ -37,7 +37,7 @@ class Routes extends Component {
             <Route path="/furniture/:id" component={SingleProduct} />
             <Route path="/furniture" component={AllProducts} />
             <Route path="/about" component={About} />
-            <Redirect to="/home" />
+            <Redirect to="/LandingPage" />
           </Switch>
         ) : (
           <Switch>
