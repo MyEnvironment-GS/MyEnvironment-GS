@@ -8,7 +8,7 @@ import { authenticate } from '../store';
 const AuthForm = (props) => {
   console.log('here are props', props);
   const { name, displayName, handleSubmit, error } = props;
-
+  console.log('-----here is name', name);
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
@@ -74,7 +74,7 @@ const mapLogin = (state) => {
 
 const mapSignup = (state) => {
   return {
-    name: 'Sign up',
+    name: 'signup',
     displayName: 'Sign Up',
     firstName: 'Sign Up',
     lastName: 'Sign Up',

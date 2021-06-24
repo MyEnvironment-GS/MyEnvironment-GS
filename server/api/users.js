@@ -64,7 +64,7 @@ router.get('/:token', async (req, res, next) => {
   }
 });
 
-//POST one User /api/users/:token
+//POST one User /api/users/
 router.post('/', [isUser, ensureAdmin], async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
@@ -74,15 +74,15 @@ router.post('/', [isUser, ensureAdmin], async (req, res, next) => {
   }
 });
 
-// //PUT /api/users update user admin
-router.put('/:id', [isUser, ensureAdmin], async (req, res, next) => {
-  try {
-    const userToUpdate = await User.findByPk(req.params.id);
-    res.send(await userToUpdate.update(req.body));
-  } catch (error) {
-    next(error);
-  }
-});
+// // //PUT /api/users update user admin
+// router.put('/:id', [isUser, ensureAdmin], async (req, res, next) => {
+//   try {
+//     const userToUpdate = await User.findByPk(req.params.id);
+//     res.send(await userToUpdate.update(req.body));
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.delete('/:id', [isUser, ensureAdmin], async (req, res, next) => {
   try {
