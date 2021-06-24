@@ -14,32 +14,32 @@ const User = db.define('user', {
     unique: true,
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   password: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   firstName: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
     // allowNull: false,
     // validate: {
     //   notEmpty: true,
     // },
   },
   lastName: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
     // allowNull: false,
     // validate: {
     //   notEmpty: true,
     // },
   },
   email: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
     // unique: true,
     // allowNull: false,
     // validate: {
@@ -47,7 +47,7 @@ const User = db.define('user', {
     // },
   },
   phoneNumber: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
     // allowNull: false,
     // validate: {
     //   notEmpty: true,
@@ -58,45 +58,45 @@ const User = db.define('user', {
     defaultValue: 'USER',
     allowNull: false,
     validate: {
-      notEmpty: true,
-    },
+      notEmpty: true
+    }
   },
   shippingName: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   shippingPhoneNumber: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   shippingStreet: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   shippingCity: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   shippingState: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   shippingZipCode: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.INTEGER
   },
   billingName: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   billingPhoneNumber: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   billingStreet: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   billingCity: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   billingState: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING
   },
   billingZipCode: {
-    type: Sequelize.INTEGER,
-  },
+    type: Sequelize.INTEGER
+  }
 });
 
 module.exports = User;
@@ -134,9 +134,9 @@ User.findByToken = async function (token) {
       include: {
         model: Cart,
         include: {
-          model: Furniture,
-        },
-      },
+          model: Furniture
+        }
+      }
     });
     if (!user) {
       throw 'nooo';
@@ -152,7 +152,7 @@ User.findByToken = async function (token) {
 /**
  * hooks
  */
-const hashPassword = async (user) => {
+const hashPassword = async user => {
   //in case the password has been changed, we want to encrypt it with bcrypt
   if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, SALT_ROUNDS);
@@ -161,15 +161,8 @@ const hashPassword = async (user) => {
 
 User.beforeCreate(hashPassword);
 User.beforeUpdate(hashPassword);
-User.beforeBulkCreate((users) => Promise.all(users.map(hashPassword)));
+User.beforeBulkCreate(users => Promise.all(users.map(hashPassword)));
 User.afterCreate(async function (user) {
   const userCart = await Cart.create({});
   await userCart.setUser(user);
-
-  const dummyFurniture = await Furniture.findByPk(1);
-  const dummyFurniture2 = await Furniture.findByPk(2);
-
-  // console.log(dummyFurniture.dataValues.price)
-  await dummyFurniture.addCart(userCart);
-  await dummyFurniture2.addCart(userCart);
 });
