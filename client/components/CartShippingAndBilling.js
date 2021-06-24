@@ -277,7 +277,7 @@ class CartShippingAndBilling extends Component {
               type='submit'
               className={classes.checkoutInputField}
             >
-              Continue to Checkout
+              Complete Checkout
             </Button>
           </Grid>
         </form>
